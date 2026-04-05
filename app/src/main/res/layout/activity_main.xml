@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#000000">
+    <TextView android:id="@+id/status_title"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="🔱 AKAME OMNI V9.2" android:textColor="#00FFCC"
+        android:textSize="24sp" android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" android:textStyle="bold" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="CLOUD BRIDGE: ACTIVE" android:textColor="#555555"
+        android:layout_below="@id/status_title" android:layout_centerHorizontal="true"
+        android:textSize="10sp" />
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_above="@id/btn_sincronizar" android:layout_below="@id/status_title"
+        android:layout_margin="20dp" android:background="#050505">
+        <TextView android:id="@+id/log_output"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:padding="15dp" android:textColor="#00FF00"
+            android:fontFamily="monospace" android:text="> Sistema Pronto." />
+    </ScrollView>
+    <Button android:id="@+id/btn_sincronizar"
+        android:layout_width="match_parent" android:layout_height="70dp"
+        android:layout_alignParentBottom="true" android:text="SINCRONIZAR AGORA"
+        android:backgroundTint="#00FFCC" android:textColor="#000000" android:textStyle="bold" />
+</RelativeLayout>
