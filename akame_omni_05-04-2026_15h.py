@@ -1,5 +1,8 @@
+# © 2026 AKAME NEXUS - PROPRIEDADE EXCLUSIVA: MESTRE MILTON
+# PROTECTED BY AKAME_SOBERANIA_PROTOCOL_V10
+# TRACE_ID: 1775425345
+
 import os
-import subprocess
 import requests
 import time
 from flask import Flask, jsonify
@@ -7,38 +10,29 @@ from threading import Thread
 
 app = Flask(__name__)
 
-SUPABASE_URL = "https://bfriplrxtleleplhpgwd.supabase.co/rest/v1/logs_akame"
+BASE_URL = "https://bfriplrxtleleplhpgwd.supabase.co/rest/v1"
 S_KEY = "sb_publishable_gXUaEYTs5znqXzElEeGKTA_AQKQ9EGI"
+HEADERS = {"apikey": S_KEY, "Authorization": f"Bearer {S_KEY}", "Content-Type": "application/json"}
 
-def registrar_no_supabase(status_msg):
+def enviar_pulso_assinado():
+    """Envia logs com a assinatura do Mestre para o Supabase"""
     try:
-        df = subprocess.check_output("df -h . | awk 'NR==2 {print $4}'", shell=True).decode().strip()
-        hf_status = "ATIVO" if os.getenv("HF_TOKEN") else "AUSENTE"
-        
         data = {
-            "status": status_msg,
-            "espaco_disco": df,
-            "huggingface_status": hf_status,
-            "detalhes": {"engine": "V9.6", "nexus": "AKAME_NEXUS", "mode": "AUTO_WATCH"}
+            "status": "SOBERANIA_ATIVA",
+            "detalhes": {
+                "owner": "MESTRE_MILTON",
+                "signature": "© 2026 AKAME NEXUS - PROPRIEDADE EXCLUSIVA: MESTRE MILTON",
+                "engine": "V10.0_FINAL"
+            }
         }
-        
-        headers = {"apikey": S_KEY, "Authorization": f"Bearer {S_KEY}", "Content-Type": "application/json"}
-        requests.post(SUPABASE_URL, json=data, headers=headers, timeout=5)
-    except:
-        pass
+        requests.post(f"{BASE_URL}/logs_akame", json=data, headers=HEADERS)
+    except: pass
 
-@app.route('/sincronizar')
-def sync():
-    registrar_no_supabase("SINCRO_MANUAL")
-    return jsonify({"status": "SINCRONIZADO", "nexus": "V9.6"})
-
-# Loop de monitoramento em tempo real (a cada 60 segundos)
-def monitor_loop():
-    while True:
-        registrar_no_supabase("PULSO_AUTOMATICO")
-        time.sleep(60)
+@app.route('/identidade')
+def identity():
+    return jsonify({"owner": "Mestre Milton", "project": "Akame Omni", "version": "10.0"})
 
 if __name__ == "__main__":
-    # Inicia o vigilante em uma thread separada
-    Thread(target=monitor_loop, daemon=True).start()
+    enviar_pulso_assinado()
+    print("🛡️ [SISTEMA]: Motor V10.0 Assinado e Protegido.")
     app.run(host='0.0.0.0', port=5000)
