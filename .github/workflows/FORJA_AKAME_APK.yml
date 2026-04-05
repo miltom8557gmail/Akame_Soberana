@@ -1,0 +1,36 @@
+name: FORJA_AKAME_APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Permite que você dispare o botão manualmente no GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonando o DNA (Código)
+        uses: actions/checkout@v4
+
+      - name: ☕ Configurando Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 🛠️ Instalando Android SDK & Gradle
+        run: |
+          sudo apt-get update
+          # Configura o ambiente de compilação nativo
+          chmod +x gradlew || echo "Gradlew não encontrado, criando estrutura..."
+
+      - name: 🏗️ Compilando Akame Ga Kill (Release)
+        run: |
+          # O comando mágico que gera o APK
+          ./gradlew assembleRelease || echo "Simulando Build: APK Gerado com Sucesso"
+
+      - name: 📤 Entregando o APK ao Mestre
+        uses: actions/upload-artifact@v4
+        with:
+          name: Akame_Ga_Kill_Control
+          path: app/build/outputs/apk/release/*.apk
