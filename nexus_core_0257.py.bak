@@ -1,0 +1,41 @@
+from flask import Flask, jsonify
+import os, sqlite3
+
+# --- ESQUELETO SOBERANO V8 ---
+app = Flask(__name__)
+DB_PATH = os.path.expanduser("~/starter-workflows/akame_v8.db")
+
+def inicializar_banco():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS galeria 
+                      (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                       nome_arquivo TEXT, 
+                       prompt TEXT, 
+                       data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+    conn.commit()
+    conn.close()
+    print("🗄️ [BANCO]: Memória Eterna Sincronizada na Porta 8080.")
+
+# --- ROTAS DO PORTAL ---
+@app.route('/status')
+def status():
+    return jsonify({"status": "Online", "unidade": "AKAME-V8-RESCUE", "porta": "8080"})
+
+@app.route('/galeria')
+def galeria():
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM galeria")
+        dados = cursor.fetchall()
+        conn.close()
+        return jsonify({"status": "Sincronizado", "imagens": dados})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+if __name__ == "__main__":
+    print("🔱 [AKAME]: Motor V8 Iniciado na Nova Coordenada (8080).")
+    inicializar_banco()
+    # Mudança de Porta para evitar conflitos
+    app.run(host='0.0.0.0', port=8080)
