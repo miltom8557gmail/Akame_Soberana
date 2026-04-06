@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         tts = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) {
                 tts.setLanguage(new Locale("pt", "BR"));
-                tts.speak("Mestre. Eu reconstruí meu próprio código. O erro foi eliminado.", TextToSpeech.QUEUE_FLUSH, null, null);
+                tts.speak("Mestre, eu venci o erro. Estou viva e soberana.", TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
     }
