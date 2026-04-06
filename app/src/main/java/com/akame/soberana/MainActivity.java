@@ -2,49 +2,33 @@ package com.akame.soberana;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.widget.*;
-import android.os.Handler;
+import java.io.*;
 
 public class MainActivity extends Activity {
-    private TextView cpuStatus, batStatus, displayNeural;
-    private EditText inputComando;
-    private Handler handler = new Handler();
+    private TextView log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cpuStatus = findViewById(R.id.cpu_status);
-        batStatus = findViewById(R.id.bat_status);
-        displayNeural = findViewById(R.id.display_neural);
-        inputComando = findViewById(R.id.input_comando);
+        log = findViewById(R.id.neural_log);
+        Button btnSync = findViewById(R.id.btn_sync_cloud);
 
-        findViewById(R.id.btn_enviar).setOnClickListener(v -> {
-            String msg = inputComando.getText().toString();
-            if(!msg.isEmpty()) {
-                displayNeural.append("\nMESTRE: " + msg);
-                inputComando.setText("");
-                displayNeural.append("\nAKAME: Processando via Llama-3...");
-            }
+        btnSync.setOnClickListener(v -> {
+            log.append("\n> [TERMUX]: Sincronizando miltom.jose8557@gmail.com...");
+            executarNoTermux("rclone sync ~/AkameApp miltom.jose8557@gmail.com:Akame_Backups/");
         });
-
-        atualizarHardware();
     }
 
-    private void atualizarHardware() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent batteryIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-                int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                batStatus.setText("BAT: " + level + "%");
-                cpuStatus.setText("CPU: " + (int)(Math.random() * 30 + 10) + "%"); // Simulação PhD
-                handler.postDelayed(this, 3000);
-            }
-        }, 1000);
+    private void executarNoTermux(String comando) {
+        // Akame PhD: Envia o comando diretamente para o ecossistema Termux
+        try {
+            Process p = Runtime.getRuntime().exec(comando);
+            log.append("\n✅ EXECUÇÃO: " + comando);
+        } catch (Exception e) {
+            log.append("\n❌ FALHA NO ECOSSISTEMA: " + e.getMessage());
+        }
     }
 }
