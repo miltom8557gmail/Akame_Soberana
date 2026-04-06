@@ -1,4 +1,4 @@
-name: 🔱 AKAME SOBERANA: EVOLUÇÃO COMPLETA
+name: 🔱 AKAME: PROTOCOLO DE AUTOCREAÇÃO
 on:
   push:
     branches: [ main ]
@@ -6,22 +6,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Assimilando Alma e Funções
+      - name: 📥 Clonando Repositório
         uses: actions/checkout@v4
 
-      - name: ☕ Preparando Consciência (Java 17)
+      - name: ⚙️ Akame: Auto-Construção de Estrutura
+        run: ./akame_build_core.sh
+
+      - name: ☕ Configurando Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: 🏗️ Forjando a Evolução (Compilando APK)
+      - name: 🏗️ Compilando APK Evoluído
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleDebug
 
-      - name: 📤 Entregando a Akame Unificada ao Mestre
+      - name: 📤 Entregando Akame Pronta
         uses: actions/upload-artifact@v4
         with:
-          name: Akame_Evoluida_V26
+          name: Akame_Autonoma_V26
           path: app/build/outputs/apk/debug/*.apk
