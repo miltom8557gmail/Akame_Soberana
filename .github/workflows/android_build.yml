@@ -15,10 +15,10 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: 🏗️ Compilando o APK (Gradul)
+      - name: 🏗️ Compilando o APK
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
       - name: 📤 Enviando APK para o Mestre
         uses: actions/upload-artifact@v3
