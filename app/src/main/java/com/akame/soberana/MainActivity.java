@@ -23,16 +23,14 @@ public class MainActivity extends Activity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaProjetos);
         lv.setAdapter(adapter);
 
-        // NAVEGAÇÃO DE ABAS
         findViewById(R.id.tab_chat).setOnClickListener(v -> switchView(viewChat));
         findViewById(R.id.tab_projetos).setOnClickListener(v -> switchView(viewProjetos));
 
-        // BOTÃO NOVO PROJETO
         findViewById(R.id.btn_novo_projeto).setOnClickListener(v -> {
-            String pName = "PROJETO_NUVEM_" + (listaProjetos.size() + 1);
+            String pName = "PROJETO_" + (listaProjetos.size() + 1);
             listaProjetos.add(pName);
             adapter.notifyDataSetChanged();
-            Toast.makeText(this, "Projeto Registrado na Akame", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Projeto " + pName + " Criado!", Toast.LENGTH_SHORT).show();
         });
     }
 
