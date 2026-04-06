@@ -11,7 +11,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private TextToSpeech tts;
-    private static final int CAMERA_PERMISSION_CODE = 100;
+    private static final int REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,24 +21,20 @@ public class MainActivity extends AppCompatActivity {
         tts = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) {
                 tts.setLanguage(new Locale("pt", "BR"));
-                saudacaoProtocolo();
+                saudacaoJarvis();
             }
         });
     }
 
-    private void saudacaoProtocolo() {
-        // Fusão: A eficiência do JARVIS com a seriedade da Akame
-        String saudacao = "Sistemas online, Mestre. Protocolo Akame-Jarvis ativo. " +
-                         "Monitorando integridade do ecossistema e sensores visuais. " +
-                         "Eliminarei qualquer erro que cruzar o nosso caminho.";
-        tts.speak(saudacao, TextToSpeech.QUEUE_FLUSH, null, null);
-        verificarPermissoes();
+    private void saudacaoJarvis() {
+        tts.speak("Sistemas auditivos em prontidão, Mestre. Aguardando o comando 'Akame Ga Kill' para interversão total.", TextToSpeech.QUEUE_FLUSH, null, null);
+        pedirPermissoes();
     }
 
-    private void verificarPermissoes() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            tts.speak("Mestre, para uma análise tática completa, meus olhos precisam estar abertos. Solicito acesso à câmera.", TextToSpeech.QUEUE_ADD, null, null);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+    private void pedirPermissoes() {
+        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
         }
     }
 }
