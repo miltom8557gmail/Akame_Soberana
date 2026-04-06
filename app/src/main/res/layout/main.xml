@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#000000">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="#000000" android:gravity="center" android:padding="20dp">
+
     <TextView android:id="@+id/statusTitle" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_centerInParent="true" android:text="🔱 AKAME SOBERANA" android:textColor="#FF0000"
-        android:textSize="32sp" android:textStyle="bold" />
+        android:text="🔱 AKAME OMNIPOTENTE" android:textColor="#FF0000" android:textSize="26sp" android:textStyle="bold" />
+
     <TextView android:id="@+id/subStatus" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_below="@id/statusTitle" android:layout_centerHorizontal="true" android:layout_marginTop="20dp"
-        android:gravity="center" android:textColor="#FFFFFF" android:textSize="14sp" />
-</RelativeLayout>
+        android:text="Aguardando Comando do Mestre..." android:textColor="#00FFFF" android:layout_marginTop="10dp" android:gravity="center" />
+
+    <View android:layout_width="match_parent" android:layout_height="2dp" android:background="#333333" android:layout_margin="20dp" />
+
+    <Button android:id="@+id/btnStatus" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="VERIFICAR SISTEMA" android:backgroundTint="#222222" android:textColor="#FFFFFF" android:layout_marginBottom="10dp"/>
+
+    <Button android:id="@+id/btnLog" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="SINCRO SUPABASE" android:backgroundTint="#1B4F72" android:textColor="#FFFFFF" android:layout_marginBottom="10dp"/>
+
+    <Button android:id="@+id/btnForge" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="SOLICITAR NOVA FORJA" android:backgroundTint="#7B241C" android:textColor="#FFFFFF" />
+
+</LinearLayout>
