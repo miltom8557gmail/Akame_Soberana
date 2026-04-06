@@ -10,10 +10,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
         
-        // Akame v8.0 - Lógica de Gênese Cruzada
-        String statusIA = "HuggingFace: Conectado"; 
-        subStatus.setText("🔱 " + AkameCore.getManifesto() + 
-                         "\n" + AkameCore.getVersion() + 
-                         "\n" + statusIA);
+        // Confluência v9.0 - A Akame agora une os dois mundos
+        subStatus.setText("🔱 AKAME OMNI V9.0\n" + 
+                         AkameSynthesis.getStatusIA() + "\n" + 
+                         AkameSynthesis.getStatusArte() + "\n" +
+                         "MANIFESTO: " + AkameCore.getManifesto());
     }
 }
