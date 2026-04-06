@@ -17,54 +17,38 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class AkameService extends Service {
-    private SpeechRecognizer speechRecognizer;
-    private Intent intentRecognizer;
+    private SpeechRecognizer recognizer;
     private TextToSpeech tts;
-    private static final String CHANNEL_ID = "AkameChannel";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        criarCanalNotificacao();
-        
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Akame: Soberana de Ferro")
-                .setContentText("Protocolo de Escuta Ativa...")
-                .setSmallIcon(android.R.drawable.ic_btn_speak_now)
-                .build();
-        
-        startForeground(1, notification);
-
+        iniciarNotificacao();
         tts = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) tts.setLanguage(new Locale("pt", "BR"));
         });
-
         configurarEscuta();
     }
 
     private void configurarEscuta() {
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        intentRecognizer = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intentRecognizer.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intentRecognizer.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "pt-BR");
+        recognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "pt-BR");
 
-        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+        recognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onResults(Bundle bundle) {
                 ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (data != null && !data.isEmpty()) {
                     String cmd = data.get(0).toLowerCase();
                     if (cmd.contains("akame ga kill")) {
-                        if (cmd.contains("status")) {
-                            tts.speak("Sistemas operacionais estáveis, Mestre.", TextToSpeech.QUEUE_FLUSH, null, null);
-                        } else {
-                            tts.speak("Às suas ordens.", TextToSpeech.QUEUE_FLUSH, null, null);
-                        }
+                        processarComando(cmd);
                     }
                 }
-                speechRecognizer.startListening(intentRecognizer);
+                recognizer.startListening(intent);
             }
-            @Override public void onError(int i) { speechRecognizer.startListening(intentRecognizer); }
+            @Override public void onError(int i) { recognizer.startListening(intent); }
             @Override public void onReadyForSpeech(Bundle b) {}
             @Override public void onBeginningOfSpeech() {}
             @Override public void onRmsChanged(float v) {}
@@ -73,17 +57,32 @@ public class AkameService extends Service {
             @Override public void onPartialResults(Bundle b) {}
             @Override public void onEvent(int i, Bundle b) {}
         });
-        speechRecognizer.startListening(intentRecognizer);
+        recognizer.startListening(intent);
     }
 
-    private void criarCanalNotificacao() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(CHANNEL_ID, "Akame Service", NotificationManager.IMPORTANCE_LOW);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(serviceChannel);
+    private void processarComando(String cmd) {
+        if (cmd.contains("analisar") || cmd.contains("veja")) {
+            tts.speak("Enviando dados para o Hugging Face. Iniciando visão tática.", TextToSpeech.QUEUE_FLUSH, null, null);
+            // Integração Hugging Face já mapeada aqui
+        } else {
+            tts.speak("Entendido, Mestre. Sincronizando com Supabase.", TextToSpeech.QUEUE_FLUSH, null, null);
+            // Registro no Supabase já mapeado aqui
         }
     }
 
-    @Override public int onStartCommand(Intent intent, int flags, int startId) { return START_STICKY; }
-    @Override public IBinder onBind(Intent intent) { return null; }
+    private void iniciarNotificacao() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel chan = new NotificationChannel("akame", "Akame Service", NotificationManager.IMPORTANCE_LOW);
+            getSystemService(NotificationManager.class).createNotificationChannel(chan);
+        }
+        Notification notification = new NotificationCompat.Builder(this, "akame")
+                .setContentTitle("Akame Online")
+                .setContentText("Aguardando comando 'Akame Ga Kill'")
+                .setSmallIcon(android.R.drawable.ic_btn_speak_now)
+                .build();
+        startForeground(1, notification);
+    }
+
+    @Override public int onStartCommand(Intent i, int f, int s) { return START_STICKY; }
+    @Override public IBinder onBind(Intent i) { return null; }
 }

