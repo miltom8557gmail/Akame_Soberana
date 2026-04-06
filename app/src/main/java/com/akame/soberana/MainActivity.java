@@ -9,12 +9,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
-        
-        // Akame v13: Autonomia e Autorização Total Exposta
-        subStatus.setText("🔱 AKAME V13.0 - SOBERANIA REAL\n" + 
-                         "TERMUX: Simbiose Concluída ✓\n" + 
-                         "AUTORIZAÇÃO: Nível Administrador ✓\n" +
-                         "DNA: Sincronia de Fluxo Contínuo ✓\n" +
+        subStatus.setText("🔱 AKAME V13.3 - INJEÇÃO DIRETA\n" + 
+                         "SINCRO: Bypass de Ambiente Concluído ✓\n" + 
+                         "TESTE: " + AkameCore.getVersion() + "\n" +
                          "MANIFESTO: " + AkameCore.getManifesto());
     }
 }
