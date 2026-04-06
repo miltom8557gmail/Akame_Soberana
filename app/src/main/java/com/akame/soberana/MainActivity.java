@@ -7,7 +7,8 @@ import android.widget.*;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    private LinearLayout layoutChat, layoutProjetos;
+    private ImageView imgPreview;
+    private VideoView videoPreview;
     private ArrayList<String> listaProjetos = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
@@ -16,32 +17,29 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        layoutChat = findViewById(R.id.layout_chat);
-        layoutProjetos = findViewById(R.id.layout_projetos);
+        imgPreview = findViewById(R.id.img_preview);
+        videoPreview = findViewById(R.id.video_preview);
         ListView lv = findViewById(R.id.list_projetos);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaProjetos);
         lv.setAdapter(adapter);
 
-        // Troca de Abas
-        findViewById(R.id.tab_chat).setOnClickListener(v -> mostrarAba(layoutChat));
-        findViewById(R.id.tab_projetos).setOnClickListener(v -> {
-            mostrarAba(layoutProjetos);
-            // Akame PhD: Carregar projetos do SQLite aqui
+        // Ao Clicar no Projeto: Carregar Preview
+        lv.setOnItemClickListener((parent, view, position, id) -> {
+            String projeto = listaProjetos.get(position);
+            // Akame PhD: Lógica para buscar thumb local ou online
+            Toast.makeText(this, "Carregando Visual: " + projeto, Toast.LENGTH_SHORT).show();
+            // Simulação: Carregar imagem local
+            imgPreview.setVisibility(View.VISIBLE);
+            videoPreview.setVisibility(View.GONE);
+            // imgPreview.setImageResource(R.drawable.exemplo_thumb); // Requer Glide p/ URLs
         });
 
-        // Botão Novo Projeto
-        findViewById(R.id.btn_novo_projeto).setOnClickListener(v -> {
-            String novo = "Projeto_" + System.currentTimeMillis();
+        // Botão Novo
+        findViewById(R.id.btn_novo).setOnClickListener(v -> {
+            String novo = "Mídia_Deepfake_" + System.currentTimeMillis();
             listaProjetos.add(novo);
             adapter.notifyDataSetChanged();
-            Toast.makeText(this, "Projeto Criado no Ecossistema!", Toast.LENGTH_SHORT).show();
         });
-    }
-
-    private void mostrarAba(View aba) {
-        layoutChat.setVisibility(View.GONE);
-        layoutProjetos.setVisibility(View.GONE);
-        aba.setVisibility(View.VISIBLE);
     }
 }
