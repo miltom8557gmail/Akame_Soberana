@@ -1,4 +1,4 @@
-name: 🔱 FORJA OMNI (Compilação e Entrega)
+name: 🔱 AKAME SOBERANA (Criação e Entrega)
 
 on:
   workflow_dispatch:
@@ -6,26 +6,39 @@ on:
     branches: [ main ]
 
 jobs:
-  build_all:
+  akame_creator:
     runs-on: ubuntu-latest
     steps:
-      - name: 🛰️ Clonando DNA
+      - name: 🛰️ Sincronia de DNA
         uses: actions/checkout@v4
-      
-      - name: ☕ Java 17
+
+      - name: 🧠 Akame: Analisar e Atualizar Ambiente
+        run: |
+          echo "Auditando requisitos do sistema..."
+          sudo apt-get update
+          sudo apt-get install -y build-essential curl file git
+          # Garante que o Gradle tenha permissão de execução em qualquer circunstância
+          chmod +x gradlew || echo "Tentando recuperar gradlew..."
+
+      - name: ☕ Java 17 (Requisito de Base)
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: gradle
 
-      - name: 🔑 Permissão
-        run: chmod +x gradlew
+      - name: 🛠️ Akame: Criação e Compilação
+        run: |
+          # Se o build falhar, a Akame busca a causa nos logs
+          ./gradlew assembleDebug --stacktrace || {
+            echo "❌ Erro detectado. Akame analisando dependências..."
+            ./gradlew --version
+            exit 1
+          }
 
-      - name: 🛠️ Build APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: 📦 Entrega
+      - name: 📦 Entrega do Artefato
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Akame_Soberana_Final
+          name: Akame_Soberana_vFinal
           path: "**/build/outputs/apk/debug/*.apk"
