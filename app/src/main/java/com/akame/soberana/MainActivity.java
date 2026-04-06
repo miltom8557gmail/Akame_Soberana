@@ -28,10 +28,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void verificarPermissoes() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            tts.speak("Mestre, preciso de permissão para abrir meus olhos. Solicitação de câmera enviada.", TextToSpeech.QUEUE_FLUSH, null, null);
+            tts.speak("Mestre, os três pilares da visão aguardam permissão.", TextToSpeech.QUEUE_FLUSH, null, null);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
         } else {
-            tts.speak("Visão computacional ativa. Meus olhos estão abertos e prontos para processar o mundo.", TextToSpeech.QUEUE_FLUSH, null, null);
+            tts.speak("Sistemas de visão integrados. Pronta para reconhecer objetos, ler textos e identificar sua face.", TextToSpeech.QUEUE_FLUSH, null, null);
         }
+    }
+
+    // O motor de processamento será ativado aqui no próximo passo (Passo 2 da Visão)
+    private void processarVisao(int modo) {
+        // modo 1: Objetos | modo 2: Texto | modo 3: Face
+        tts.speak("Iniciando análise sensorial profunda.", TextToSpeech.QUEUE_ADD, null, null);
     }
 }
