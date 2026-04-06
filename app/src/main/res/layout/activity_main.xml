@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#050505">
-    <TextView android:id="@+id/status_title" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="AKAME: GESTORA DE PROJETOS" android:textColor="#00FFCC" android:layout_centerHorizontal="true" android:layout_marginTop="20dp"/>
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#0A0A0C">
+    <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="SISTEMA AKAME: PRONTO PARA CRIAR" android:textColor="#00FFCC" android:layout_centerHorizontal="true" android:layout_marginTop="30dp"/>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"
-        android:layout_centerInParent="true" android:padding="20dp">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" 
-            android:text="● MODO: CRIAÇÃO INDEPENDENTE" android:textColor="#FF003C"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" 
-            android:text="● GITHUB: REPOSITÓRIOS SEPARADOS" android:textColor="#BD00FF" android:layout_marginTop="10dp"/>
+        android:layout_centerInParent="true" android:padding="30dp">
+        <TextView android:text="● NÚCLEO PhD: OPERACIONAL" android:textColor="#BD00FF"/>
+        <TextView android:text="● ECOSSISTEMA: VALIDADO" android:textColor="#00FFCC" android:layout_marginTop="10dp"/>
+        <TextView android:text="● STATUS: AGUARDANDO PROJETO" android:textColor="#FFFFFF" android:layout_marginTop="10dp"/>
     </LinearLayout>
 </RelativeLayout>
