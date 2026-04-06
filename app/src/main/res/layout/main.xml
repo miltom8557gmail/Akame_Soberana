@@ -5,6 +5,6 @@
         android:layout_centerInParent="true" android:text="🔱 AKAME OMNI" android:textColor="#FF0000"
         android:textSize="28sp" android:textStyle="bold" />
     <TextView android:id="@+id/subStatus" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_below="@id/statusTitle" android:layout_centerHorizontal="true" android:layout_marginTop="15dp"
-        android:gravity="center" android:textColor="#00FF00" android:textSize="13sp" android:lineSpacingExtra="4dp" />
+        android:layout_below="@id/statusTitle" android:layout_centerHorizontal="true" android:layout_marginTop="20dp"
+        android:gravity="center" android:textColor="#00FF00" android:textSize="14sp" />
 </RelativeLayout>

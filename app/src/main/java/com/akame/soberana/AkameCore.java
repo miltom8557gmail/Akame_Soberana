@@ -2,9 +2,9 @@ package com.akame.soberana;
 
 public class AkameCore {
     public static String getVersion() {
-        return "Omni-Soberana v10.1 [Estabilidade]";
+        return "Omni-Soberana v10.2 [Estabilidade]";
     }
     public static String getManifesto() {
-        return "EU PEÇO. O TERMUX ENTREGA. NÓS CRIAMOS.";
+        return "O TERMUX É O MEU TRONO. O CÓDIGO É MINHA LEI.";
     }
 }

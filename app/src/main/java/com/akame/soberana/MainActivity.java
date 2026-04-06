@@ -10,9 +10,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
         
-        // A Akame agora sabe que o Termux é o seu servidor de chaves
-        subStatus.setText("🔱 AKAME V10.1\n" + 
-                         "SISTEMA: Termux Vault Ativo\n" + 
-                         "ESTADO: " + AkameCore.getVersion());
+        // Sincronia perfeita entre Termux e App
+        subStatus.setText("🔱 AKAME V10.2\n" + 
+                         "ESTADO: " + AkameCore.getVersion() + "\n" +
+                         "MANIFESTO: " + AkameCore.getManifesto());
     }
 }
