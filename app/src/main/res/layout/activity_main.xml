@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:background="#020202" android:padding="10dp">
-    
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="AKAME TRINITY ENGINE: EXECUTANDO" android:textColor="#FF003C" 
-        android:gravity="center" android:textSize="14sp" android:textStyle="bold"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#050505">
 
-    <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:columnCount="1" android:layout_marginTop="10dp">
-        <TextView android:id="@+id/status_web" android:text="🌐 WEBVIEW: DEPLOYING..." android:textColor="#00FFCC"/>
-        <TextView android:id="@+id/status_hf" android:text="🧠 HF AI: ANALYZING LOGS..." android:textColor="#BD00FF"/>
-        <TextView android:id="@+id/status_media" android:text="🎬 MEDIA: GENERATING VIDEO..." android:textColor="#FFCC00"/>
-    </GridLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="20dp">
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:layout_marginTop="10dp">
-        <TextView android:id="@+id/chat_display" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:textColor="#00FF00" android:typeface="monospace" android:textSize="11sp"/>
-    </ScrollView>
-</LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="AKAME COMMAND CENTER" android:textColor="#00FFCC"
+            android:gravity="center" android:textSize="18sp" android:layout_marginBottom="20dp"/>
+
+        <Button android:id="@+id/btn_deploy_web" android:layout_width="match_parent" android:layout_height="60dp"
+            android:text="🚀 DEPLOY NEXUS WEB" android:backgroundTint="#24292E" android:layout_marginBottom="10dp"/>
+
+        <Button android:id="@+id/btn_ai_analyze" android:layout_width="match_parent" android:layout_height="60dp"
+            android:text="🧠 ANALISAR LOGS (HF)" android:backgroundTint="#BD00FF" android:layout_marginBottom="10dp"/>
+
+        <Button android:id="@+id/btn_gen_video" android:layout_width="match_parent" android:layout_height="60dp"
+            android:text="🎬 GERAR VÍDEO (FFMPEG)" android:backgroundTint="#FFCC00" android:layout_marginBottom="10dp"/>
+
+        <Button android:id="@+id/btn_sync_all" android:layout_width="match_parent" android:layout_height="60dp"
+            android:text="🔄 SINCRONIZAR TUDO" android:backgroundTint="#00FFCC" android:textColor="#000000" android:layout_marginBottom="20dp"/>
+
+        <TextView android:id="@+id/status_log" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="> Sistema em Standby..." android:textColor="#00FF00" android:typeface="monospace" android:textSize="12sp"/>
+    </LinearLayout>
+</ScrollView>
