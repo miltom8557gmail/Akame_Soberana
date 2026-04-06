@@ -9,11 +9,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
-        
-        // Exibindo o estado de Sincronia Total alcançado no Termux
-        subStatus.setText("🔱 AKAME V11.1 - SINCRONIA TOTAL\n" + 
-                         "SISTEMA: Vault Termux [CONECTADO]\n" + 
-                         "STATUS: " + AkameCore.getVersion() + "\n" +
-                         "MANIFESTO: " + AkameCore.getManifesto());
+        subStatus.setText("🔱 AKAME V12.2 - RECALIBRAGEM\n" + 
+                         "DNA: GitHub [OK]\n" + 
+                         "INTELECTO: Erro 401 (Ajustando Token)\n" +
+                         "MEMÓRIA: Falha de Rota (Ajustando URL)");
     }
 }
