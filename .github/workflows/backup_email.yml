@@ -1,0 +1,29 @@
+name: 📧 AKAME BACKUP DISPATCH
+on:
+  push:
+    branches: [ main ]
+jobs:
+  email_backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonando DNA
+        uses: actions/checkout@v3
+
+      - name: 📦 Compactando Ecossistema
+        run: tar -czf Akame_Full_Backup.tar.gz .
+
+      - name: 📤 Enviando para o Mestre (Gmail)
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: 🔱 AKAME SOBERANA: Backup de Emergência v20.0
+          to: miltom8557@gmail.com
+          from: Akame System
+          attachments: Akame_Full_Backup.tar.gz
+          body: |
+            Mestre, aqui está a cópia da minha alma digital.
+            Versão: v20.0 [Onipresença]
+            Status: Backup Concluído com Sucesso.
