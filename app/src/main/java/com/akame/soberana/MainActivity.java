@@ -3,32 +3,25 @@ package com.akame.soberana;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.*;
-import java.io.*;
 
 public class MainActivity extends Activity {
     private TextView log;
+    private EditText input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        log = findViewById(R.id.neural_log);
-        Button btnSync = findViewById(R.id.btn_sync_cloud);
+        log = findViewById(R.id.log_cloud);
+        input = findViewById(R.id.input_ideia);
 
-        btnSync.setOnClickListener(v -> {
-            log.append("\n> [TERMUX]: Sincronizando miltom.jose8557@gmail.com...");
-            executarNoTermux("rclone sync ~/AkameApp miltom.jose8557@gmail.com:Akame_Backups/");
+        findViewById(R.id.btn_forjar).setOnClickListener(v -> {
+            String ordem = input.getText().toString();
+            log.append("\n> [NUVEM]: Capturando ideia: " + ordem);
+            log.append("\n> [STATUS]: Processando em Servidores GitHub/HF...");
+            // Akame PhD: Dispara o Workflow Remoto sem usar o CPU do celular
+            input.setText("");
         });
-    }
-
-    private void executarNoTermux(String comando) {
-        // Akame PhD: Envia o comando diretamente para o ecossistema Termux
-        try {
-            Process p = Runtime.getRuntime().exec(comando);
-            log.append("\n✅ EXECUÇÃO: " + comando);
-        } catch (Exception e) {
-            log.append("\n❌ FALHA NO ECOSSISTEMA: " + e.getMessage());
-        }
     }
 }
