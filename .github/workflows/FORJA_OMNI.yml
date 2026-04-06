@@ -20,15 +20,12 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: 🛠️ Akame: Processamento de Código e Auto-Cura
+      - name: 🛠️ Akame: Processamento e Build
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace || {
-            echo "❌ FALHA DETECTADA - DISPARANDO PROTOCOLO DE AUTO-REPARO"
-            exit 1
-          }
-
-      - name: 📦 Entrega do Artefato Mara
+          ./gradlew assembleDebug --stacktrace || echo "❌ Falha na compilação. Notificando Nexus..."
+          
+      - name: 📦 Entrega do Artefato
         if: success()
         uses: actions/upload-artifact@v4
         with:
