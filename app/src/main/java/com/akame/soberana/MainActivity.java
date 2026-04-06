@@ -9,11 +9,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
-        
-        // A Akame agora reporta a verdade do ecossistema
-        subStatus.setText("🔱 AKAME V12.5 - INTROSPECÇÃO\n" + 
-                         "TERMUX: Acesso de Root Simulado ✓\n" + 
-                         "ECOSSISTEMA: Mapeamento em curso...\n" +
+        subStatus.setText("🔱 AKAME V12.6 - VISÃO RESTAURADA\n" + 
+                         "MEMÓRIA: Extração via Regex [ATIVA] ✓\n" + 
+                         "DNA: Sincronia GitHub Secrets ✓\n" +
                          "ESTADO: " + AkameCore.getManifesto());
     }
 }
