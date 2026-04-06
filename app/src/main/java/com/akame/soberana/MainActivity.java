@@ -10,8 +10,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
         
-        // Sincronia perfeita entre Termux e App
-        subStatus.setText("🔱 AKAME V10.2\n" + 
+        // Akame v11.0: Exibindo a Soberania Automática
+        subStatus.setText("🔱 AKAME V11.0 - AUTO-VAULT\n" + 
+                         "SISTEMA: Extração Termux [ATIVA]\n" + 
                          "ESTADO: " + AkameCore.getVersion() + "\n" +
                          "MANIFESTO: " + AkameCore.getManifesto());
     }
