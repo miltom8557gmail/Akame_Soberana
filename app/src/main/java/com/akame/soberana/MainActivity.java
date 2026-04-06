@@ -10,10 +10,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
         
-        // Confluência v9.0 - A Akame agora une os dois mundos
-        subStatus.setText("🔱 AKAME OMNI V9.0\n" + 
-                         AkameSynthesis.getStatusIA() + "\n" + 
-                         AkameSynthesis.getStatusArte() + "\n" +
+        // Akame V10: Conexão Direta com o Sistema Nervoso (Termux)
+        subStatus.setText("🔱 AKAME SOBERANA V10\n" + 
+                         "SISTEMA: Termux Environment [CONECTADO]\n" + 
+                         "Poder: Extraindo chaves via Vault Requester...\n" +
                          "MANIFESTO: " + AkameCore.getManifesto());
     }
 }
