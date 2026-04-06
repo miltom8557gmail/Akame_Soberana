@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:background="#050505" android:padding="20dp">
+    android:orientation="vertical" android:background="#050505">
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="AKAME FORGE: CLOUD EDITION" android:textColor="#00FFCC"
-        android:gravity="center" android:textSize="14sp" android:textStyle="bold"/>
+        android:text="AKAME OMNI COMMANDER" android:textColor="#00FFCC"
+        android:gravity="center" android:padding="10dp" android:textStyle="bold" android:background="#111111"/>
 
-    <EditText android:id="@+id/input_ideia" android:layout_width="match_parent" android:layout_height="120dp"
-        android:hint="Ex: Crie um filme de 30s estilo Cyberpunk ou converta este vídeo em Deepfake..."
-        android:textColor="#FFFFFF" android:textColorHint="#444444" android:background="#111111"
-        android:gravity="top" android:padding="15dp" android:layout_marginTop="20dp"/>
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:background="#1A1A1A">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/tab_chat" android:text="CONVERSA" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF"/>
+            <Button android:id="@+id/tab_projetos" android:text="MEUS PROJETOS" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF"/>
+            <Button android:id="@+id/tab_cloud" android:text="NUVEM/BACKUP" android:layout_width="wrap_content" android:layout_height="wrap_content" style="?android:attr/borderlessButtonStyle" android:textColor="#FFFFFF"/>
+        </LinearLayout>
+    </HorizontalScrollView>
 
-    <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:columnCount="2" android:layout_marginTop="20dp">
-        <Button android:id="@+id/btn_deepfake" android:text="🎥 DEEPFAKE" android:layout_columnWeight="1" android:backgroundTint="#BD00FF"/>
-        <Button android:id="@+id/btn_ffmpeg" android:text="✂️ FFMPEG" android:layout_columnWeight="1" android:backgroundTint="#FFCC00"/>
-        <Button android:id="@+id/btn_traduz" android:text="🌍 TRADUÇÃO" android:layout_columnWeight="1" android:backgroundTint="#00AAFF"/>
-        <Button android:id="@+id/btn_chat" android:text="🤖 CHATBOT" android:layout_columnWeight="1" android:backgroundTint="#00FFCC"/>
-    </GridLayout>
+    <FrameLayout android:id="@+id/content_frame" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:padding="10dp">
+        
+        <LinearLayout android:id="@+id/layout_projetos" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:visibility="gone">
+            <Button android:id="@+id/btn_novo_projeto" android:text="+ NOVO PROJETO (DEEPFAKE/WEB/IA)" android:layout_width="match_parent" android:layout_height="wrap_content" android:backgroundTint="#00FFCC" android:textColor="#000000"/>
+            <ListView android:id="@+id/list_projetos" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#333333" android:dividerHeight="1dp"/>
+        </LinearLayout>
 
-    <Button android:id="@+id/btn_forjar" android:layout_width="match_parent" android:layout_height="60dp"
-        android:text="⚡ FORJAR NA NUVEM" android:layout_marginTop="20dp" android:backgroundTint="#FF003C"/>
-
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="10dp">
-        <TextView android:id="@+id/log_cloud" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="> Aguardando ordem criativa..." android:textColor="#00FF00" android:typeface="monospace" android:textSize="10sp"/>
-    </ScrollView>
+        <LinearLayout android:id="@+id/layout_chat" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+            <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+                <TextView android:id="@+id/chat_display" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#00FF00" android:typeface="monospace"/>
+            </ScrollView>
+            <EditText android:id="@+id/input_msg" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Ordem para a Akame..." android:background="#222" android:padding="10dp" android:textColor="#FFF"/>
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
