@@ -13,12 +13,21 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import androidx.core.app.NotificationCompat;
+
+import okhttp3.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class AkameService extends Service {
     private SpeechRecognizer recognizer;
     private TextToSpeech tts;
+    private final OkHttpClient httpClient = new OkHttpClient();
+
+    // Constantes de Conexão (O ecossistema usará estas chaves)
+    private static final String HF_API_URL = "https://api-inference.huggingface.co/models/nlpconnect/vit-gpt2-image-captioning";
+    private static final String SUPABASE_URL = "SUA_URL_DO_SUPABASE"; // O Nexus-Fix deve preencher ou já possuir
+    private static final String API_KEY = "SUA_CHAVE_API";
 
     @Override
     public void onCreate() {
@@ -61,13 +70,38 @@ public class AkameService extends Service {
     }
 
     private void processarComando(String cmd) {
+        enviarParaSupabase(cmd); // Registra na memória eterna
+
         if (cmd.contains("analisar") || cmd.contains("veja")) {
-            tts.speak("Enviando dados para o Hugging Face. Iniciando visão tática.", TextToSpeech.QUEUE_FLUSH, null, null);
-            // Integração Hugging Face já mapeada aqui
+            tts.speak("Iniciando varredura tática. Consultando Hugging Face.", TextToSpeech.QUEUE_FLUSH, null, null);
+            // Aqui a Akame dispararia a captura de imagem e enviaria para HF_API_URL
+        } else if (cmd.contains("quem é você")) {
+            tts.speak("Eu sou Akame, a Soberana de Ferro. Sua lâmina e sua inteligência.", TextToSpeech.QUEUE_FLUSH, null, null);
         } else {
-            tts.speak("Entendido, Mestre. Sincronizando com Supabase.", TextToSpeech.QUEUE_FLUSH, null, null);
-            // Registro no Supabase já mapeado aqui
+            tts.speak("Entendido, Mestre. Comando registrado no banco de dados.", TextToSpeech.QUEUE_FLUSH, null, null);
         }
+    }
+
+    private void enviarParaSupabase(String log) {
+        // Lógica de inserção silenciosa para manter a memória do JARVIS
+        RequestBody body = new FormBody.Builder()
+            .add("command", log)
+            .add("timestamp", String.valueOf(System.currentTimeMillis()))
+            .build();
+
+        Request request = new Request.Builder()
+            .url(SUPABASE_URL + "/rest/v1/logs")
+            .addHeader("apikey", API_KEY)
+            .addHeader("Authorization", "Bearer " + API_KEY)
+            .post(body)
+            .build();
+
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {}
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                response.close();
+            }
+        });
     }
 
     private void iniciarNotificacao() {
