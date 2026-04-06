@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:background="#020202">
+    android:orientation="vertical" android:background="#020202" android:padding="10dp">
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="AKAME OMNI: NÚCLEO DE CRIAÇÃO" android:textColor="#00FFCC"
-        android:gravity="center" android:padding="10dp" android:background="#0A0A0A" android:textStyle="bold"/>
+        android:text="AKAME ORIGINAL: NÚCLEO INTELIGENTE" android:textColor="#00FFCC"
+        android:gravity="center" android:padding="10dp" android:textStyle="bold"/>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-        <Button android:id="@+id/tab_chat" android:text="IDEIA" android:layout_width="0dp" android:layout_weight="1" style="?android:attr/borderlessButtonStyle" android:textColor="#FFF"/>
-        <Button android:id="@+id/tab_projetos" android:text="PROJETOS" android:layout_width="0dp" android:layout_weight="1" style="?android:attr/borderlessButtonStyle" android:textColor="#FFF"/>
-    </LinearLayout>
+    <EditText android:id="@+id/input_ordem" android:layout_width="match_parent" android:layout_height="200dp"
+        android:hint="Dê uma ordem complexa (Criar código, roteiro, análise...)" 
+        android:background="#111" android:textColor="#FFF" android:gravity="top" android:padding="15dp"/>
 
-    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="15dp">
-        <LinearLayout android:id="@+id/view_chat" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
-            <EditText android:id="@+id/input_ordem" android:layout_width="match_parent" android:layout_height="150dp"
-                android:hint="Descreva o que eu devo criar (Filme, Site, Deepfake...)" android:gravity="top"
-                android:background="#111" android:padding="15dp" android:textColor="#FFF" android:textColorHint="#444"/>
-            <Button android:id="@+id/btn_executar" android:layout_width="match_parent" android:layout_height="60dp"
-                android:text="⚡ GERAR NA NUVEM" android:backgroundTint="#FF003C" android:layout_marginTop="10dp"/>
-            <TextView android:id="@+id/status_cloud" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="> Akame pronta para forjar." android:textColor="#00FF00" android:layout_marginTop="10dp" android:typeface="monospace"/>
-        </LinearLayout>
-        
-        <LinearLayout android:id="@+id/view_projetos" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:visibility="gone">
-            <ListView android:id="@+id/list_projetos" android:layout_width="match_parent" android:layout_height="match_parent" android:divider="#333" android:dividerHeight="1dp"/>
-        </LinearLayout>
-    </FrameLayout>
+    <Button android:id="@+id/btn_enviar" android:layout_width="match_parent" android:layout_height="60dp"
+        android:text="EXECUTAR PENSAMENTO" android:backgroundTint="#FF003C" android:layout_marginTop="10dp"/>
+
+    <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Aguardando Mestre..." android:textColor="#00FF00" android:layout_marginTop="10dp" android:typeface="monospace"/>
 </LinearLayout>
