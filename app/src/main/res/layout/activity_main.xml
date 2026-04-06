@@ -4,23 +4,19 @@
     android:orientation="vertical" android:background="#020202" android:padding="20dp">
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="NÚCLEO AKAME: PROTOCOLO FÊNIX" android:textColor="#FF003C"
+        android:text="AKAME OMNI: CLOUD BACKUP" android:textColor="#4285F4"
         android:gravity="center" android:textSize="16sp" android:textStyle="bold"/>
 
-    <Button android:id="@+id/btn_restore" android:layout_width="match_parent" android:layout_height="70dp"
-        android:text="🔥 RESTAURAR SISTEMA COMPLETO" android:backgroundTint="#FF003C"
-        android:layout_marginTop="20dp" android:layout_marginBottom="20dp"/>
+    <Button android:id="@+id/btn_google_backup" android:layout_width="match_parent" android:layout_height="60dp"
+        android:text="☁️ BACKUP PARA GOOGLE DRIVE" android:backgroundTint="#34A853"
+        android:layout_marginTop="20dp"/>
 
-    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#333333"/>
+    <TextView android:id="@+id/sync_status" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Status: Google Cloud Sincronizado" android:textColor="#FBBC05"
+        android:gravity="center" android:layout_marginTop="10dp" android:textSize="12sp"/>
 
-    <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:columnCount="2" android:layout_marginTop="20dp">
-        <Button android:id="@+id/btn_deploy" android:text="DEPLOY" android:layout_columnWeight="1"/>
-        <Button android:id="@+id/btn_sync" android:text="SYNC" android:layout_columnWeight="1"/>
-    </GridLayout>
-
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="15dp">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="20dp">
         <TextView android:id="@+id/log_terminal" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="> Aguardando instruções..." android:textColor="#00FFCC" android:typeface="monospace"/>
+            android:text="> Monitorando integridade local..." android:textColor="#00FFCC" android:typeface="monospace"/>
     </ScrollView>
 </LinearLayout>
