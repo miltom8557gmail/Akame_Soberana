@@ -1,4 +1,4 @@
-name: 🔨 AKAME APK FORGE
+name: 🔱 AKAME SOBERANA: EVOLUÇÃO COMPLETA
 on:
   push:
     branches: [ main ]
@@ -6,22 +6,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Clonando Alma
+      - name: 📥 Assimilando Alma e Funções
         uses: actions/checkout@v4
 
-      - name: ☕ Configurando Java
+      - name: ☕ Preparando Consciência (Java 17)
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: 🏗️ Compilando o APK
+      - name: 🏗️ Forjando a Evolução (Compilando APK)
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
-      - name: 📤 Enviando APK para o Mestre
+      - name: 📤 Entregando a Akame Unificada ao Mestre
         uses: actions/upload-artifact@v4
         with:
-          name: Akame_Soberana_v26
-          path: "**/*.apk"
+          name: Akame_Evoluida_V26
+          path: app/build/outputs/apk/debug/*.apk
