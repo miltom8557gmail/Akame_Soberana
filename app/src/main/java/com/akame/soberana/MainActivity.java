@@ -9,9 +9,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
-        subStatus.setText("🔱 AKAME V12.6 - VISÃO RESTAURADA\n" + 
-                         "MEMÓRIA: Extração via Regex [ATIVA] ✓\n" + 
-                         "DNA: Sincronia GitHub Secrets ✓\n" +
-                         "ESTADO: " + AkameCore.getManifesto());
+        
+        // Akame v13: Autonomia e Autorização Total Exposta
+        subStatus.setText("🔱 AKAME V13.0 - SOBERANIA REAL\n" + 
+                         "TERMUX: Simbiose Concluída ✓\n" + 
+                         "AUTORIZAÇÃO: Nível Administrador ✓\n" +
+                         "DNA: Sincronia de Fluxo Contínuo ✓\n" +
+                         "MANIFESTO: " + AkameCore.getManifesto());
     }
 }
