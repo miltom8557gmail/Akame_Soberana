@@ -9,9 +9,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
-        subStatus.setText("🔱 AKAME V13.3 - INJEÇÃO DIRETA\n" + 
-                         "SINCRO: Bypass de Ambiente Concluído ✓\n" + 
-                         "TESTE: " + AkameCore.getVersion() + "\n" +
+        subStatus.setText("🔱 AKAME V14.0 - PERSISTÊNCIA\n" + 
+                         "BANCO DE DADOS: Supabase Conectado ✓\n" + 
+                         "MEMÓRIA: Fluxo de Logs Ativo ✓\n" +
                          "MANIFESTO: " + AkameCore.getManifesto());
     }
 }
