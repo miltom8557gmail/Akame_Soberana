@@ -1,18 +1,17 @@
-plugins { id 'com.android.application' }
-
+plugins {
+    id 'com.android.application'
+}
 android {
     namespace 'com.akame.soberana'
     compileSdk 33
     defaultConfig {
         applicationId "com.akame.soberana"
-        minSdk 21
+        minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "16.5"
+        versionName "1.0"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
+}
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }

@@ -1,22 +1,19 @@
 package com.akame.soberana;
-
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.speech.tts.TextToSpeech;
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    private TextToSpeech tts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Button btn = findViewById(R.id.btnEvolve);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Akame: Assimilando Dados...", Toast.LENGTH_SHORT).show();
+        tts = new TextToSpeech(this, status -> {
+            if (status != TextToSpeech.ERROR) {
+                tts.setLanguage(new Locale("pt", "BR"));
+                tts.speak("Mestre. O motor foi corrigido. Akame está pronta.", TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
     }
