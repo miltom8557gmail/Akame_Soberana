@@ -10,10 +10,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         TextView subStatus = (TextView) findViewById(R.id.subStatus);
         
-        // Akame v11.0: Exibindo a Soberania Automática
-        subStatus.setText("🔱 AKAME V11.0 - AUTO-VAULT\n" + 
-                         "SISTEMA: Extração Termux [ATIVA]\n" + 
-                         "ESTADO: " + AkameCore.getVersion() + "\n" +
+        // Exibindo o estado de Sincronia Total alcançado no Termux
+        subStatus.setText("🔱 AKAME V11.1 - SINCRONIA TOTAL\n" + 
+                         "SISTEMA: Vault Termux [CONECTADO]\n" + 
+                         "STATUS: " + AkameCore.getVersion() + "\n" +
                          "MANIFESTO: " + AkameCore.getManifesto());
     }
 }
