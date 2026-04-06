@@ -7,8 +7,7 @@ import android.widget.*;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    private ImageView imgPreview;
-    private VideoView videoPreview;
+    private LinearLayout viewChat, viewProjetos;
     private ArrayList<String> listaProjetos = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
@@ -17,29 +16,29 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imgPreview = findViewById(R.id.img_preview);
-        videoPreview = findViewById(R.id.video_preview);
+        viewChat = findViewById(R.id.view_chat);
+        viewProjetos = findViewById(R.id.view_projetos);
         ListView lv = findViewById(R.id.list_projetos);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaProjetos);
         lv.setAdapter(adapter);
 
-        // Ao Clicar no Projeto: Carregar Preview
-        lv.setOnItemClickListener((parent, view, position, id) -> {
-            String projeto = listaProjetos.get(position);
-            // Akame PhD: Lógica para buscar thumb local ou online
-            Toast.makeText(this, "Carregando Visual: " + projeto, Toast.LENGTH_SHORT).show();
-            // Simulação: Carregar imagem local
-            imgPreview.setVisibility(View.VISIBLE);
-            videoPreview.setVisibility(View.GONE);
-            // imgPreview.setImageResource(R.drawable.exemplo_thumb); // Requer Glide p/ URLs
-        });
+        // NAVEGAÇÃO DE ABAS
+        findViewById(R.id.tab_chat).setOnClickListener(v -> switchView(viewChat));
+        findViewById(R.id.tab_projetos).setOnClickListener(v -> switchView(viewProjetos));
 
-        // Botão Novo
-        findViewById(R.id.btn_novo).setOnClickListener(v -> {
-            String novo = "Mídia_Deepfake_" + System.currentTimeMillis();
-            listaProjetos.add(novo);
+        // BOTÃO NOVO PROJETO
+        findViewById(R.id.btn_novo_projeto).setOnClickListener(v -> {
+            String pName = "PROJETO_NUVEM_" + (listaProjetos.size() + 1);
+            listaProjetos.add(pName);
             adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Projeto Registrado na Akame", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void switchView(View v) {
+        viewChat.setVisibility(View.GONE);
+        viewProjetos.setVisibility(View.GONE);
+        v.setVisibility(View.VISIBLE);
     }
 }
