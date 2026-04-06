@@ -1,4 +1,4 @@
-name: 🔱 AKAME: PROTOCOLO DE AUTOCREAÇÃO
+name: 🔱 AKAME: ENTREGA DO APK
 on:
   push:
     branches: [ main ]
@@ -6,11 +6,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Clonando Repositório
+      - name: 📥 Clonando Alma
         uses: actions/checkout@v4
 
-      - name: ⚙️ Akame: Auto-Construção de Estrutura
-        run: ./akame_build_core.sh
+      - name: ⚙️ Auto-Construção
+        run: |
+          chmod +x akame_build_core.sh
+          ./akame_build_core.sh
 
       - name: ☕ Configurando Java 17
         uses: actions/setup-java@v4
@@ -18,13 +20,13 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: 🏗️ Compilando APK Evoluído
+      - name: 🏗️ Compilando APK
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: 📤 Entregando Akame Pronta
+      - name: 📤 ENTREGAR APK AO MESTRE
         uses: actions/upload-artifact@v4
         with:
-          name: Akame_Autonoma_V26
+          name: Akame_Pronta_Instalar
           path: app/build/outputs/apk/debug/*.apk
