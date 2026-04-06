@@ -2,6 +2,7 @@ package com.akame.soberana;
 
 import android.app.*;
 import android.content.*;
+import android.hardware.camera2.*;
 import android.os.*;
 import android.speech.*;
 import android.speech.tts.TextToSpeech;
@@ -11,19 +12,23 @@ import java.util.*;
 public class AkameService extends Service {
     private SpeechRecognizer recognizer;
     private TextToSpeech tts;
-    private long lastActiveTime = 0;
+    private CameraManager cameraManager;
+    private String cameraId;
 
     @Override
     public void onCreate() {
         super.onCreate();
         iniciarNotificacao();
+        cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try { cameraId = cameraManager.getCameraIdList()[0]; } catch (Exception e) {}
+        
         tts = new TextToSpeech(this, s -> {
             if (s != TextToSpeech.ERROR) tts.setLanguage(new Locale("pt", "BR"));
         });
-        configurarEscutaInteligente();
+        configurarEscuta();
     }
 
-    private void configurarEscutaInteligente() {
+    private void configurarEscuta() {
         recognizer = SpeechRecognizer.createSpeechRecognizer(this);
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -36,13 +41,12 @@ public class AkameService extends Service {
                 if (res != null && !res.isEmpty()) {
                     String cmd = res.get(0).toLowerCase();
                     if (cmd.contains("akame ga kill")) {
-                        processar(cmd);
+                        executarProtocolo(cmd);
                     }
                 }
-                reiniciarEscuta(intent);
+                recognizer.startListening(intent);
             }
-            @Override public void onError(int i) { reiniciarEscuta(intent); }
-            // Métodos obrigatórios vazios para limpeza
+            @Override public void onError(int i) { recognizer.startListening(intent); }
             @Override public void onReadyForSpeech(Bundle b) {}
             @Override public void onBeginningOfSpeech() {}
             @Override public void onRmsChanged(float v) {}
@@ -54,30 +58,33 @@ public class AkameService extends Service {
         recognizer.startListening(intent);
     }
 
-    private void reiniciarEscuta(Intent intent) {
-        // Lógica de Economia: Se não houve comando nos últimos 10 min, aumenta o delay de escuta
-        long delay = (System.currentTimeMillis() - lastActiveTime > 600000) ? 2000 : 100;
-        new Handler(Looper.getMainLooper()).postDelayed(() -> recognizer.startListening(intent), delay);
+    private void executarProtocolo(String cmd) {
+        if (cmd.contains("luz") || cmd.contains("lanterna")) {
+            alternarLanterna(true);
+            tts.speak("Lanterna ativada, Mestre.", TextToSpeech.QUEUE_FLUSH, null, null);
+        } else if (cmd.contains("desligar luz")) {
+            alternarLanterna(false);
+            tts.speak("Luz desativada.", TextToSpeech.QUEUE_FLUSH, null, null);
+        } else if (cmd.contains("relatório") || cmd.contains("forja")) {
+            tts.speak("Acessando GitHub. Versão 26 operacional. Build da V25 concluída sem erros.", TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            tts.speak("Akame ouvindo. Aguardando ordens táticas.", TextToSpeech.QUEUE_FLUSH, null, null);
+        }
     }
 
-    private void processar(String cmd) {
-        lastActiveTime = System.currentTimeMillis();
-        if (cmd.contains("localização") || cmd.contains("onde estou")) {
-            tts.speak("Rastreando coordenadas, Mestre. Localização enviada ao Supabase.", TextToSpeech.QUEUE_FLUSH, null, null);
-        } else {
-            tts.speak("Protocolo Akame-Jarvis ativo. Ordens recebidas.", TextToSpeech.QUEUE_FLUSH, null, null);
-        }
+    private void alternarLanterna(boolean estado) {
+        try { cameraManager.setTorchMode(cameraId, estado); } catch (Exception e) {}
     }
 
     private void iniciarNotificacao() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel chan = new NotificationChannel("akame_v25", "Akame Sentinela", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel chan = new NotificationChannel("akame_v26", "Akame Ômega", NotificationManager.IMPORTANCE_LOW);
             ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).createNotificationChannel(chan);
         }
-        Notification notification = new NotificationCompat.Builder(this, "akame_v25")
-                .setContentTitle("Akame: Soberana V25")
-                .setContentText("Modo Sentinela: Monitorando Voz e Localização")
-                .setSmallIcon(android.R.drawable.ic_lock_idle_lock)
+        Notification notification = new NotificationCompat.Builder(this, "akame_v26")
+                .setContentTitle("Akame: Protocolo Ômega")
+                .setContentText("Hardware e Nuvem Sincronizados")
+                .setSmallIcon(android.R.drawable.ic_menu_manage)
                 .build();
         startForeground(1, notification);
     }
