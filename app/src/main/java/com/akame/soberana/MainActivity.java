@@ -7,6 +7,5 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Akame Original: Orquestrando múltiplos mundos simultâneos.
     }
 }
