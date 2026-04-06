@@ -1,4 +1,6 @@
-name: 🔱 FORJA OMNI (Auto-Cura Ativa)
+name: 🔱 AKAME SOBERANA
+
+run-name: 🧬 Run:[${{ github.run_number }}] - 🕒 ${{ github.event.head_commit.message || 'Manual_Forja' }}
 
 on:
   workflow_dispatch:
@@ -10,24 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: ☕ Setup Java 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle'
 
-      - name: 🛠️ Akame: Tentativa de Compilação
-        id: compile
+      - name: 🛠️ Akame: Processamento de Código e Auto-Cura
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace || {
-            echo "❌ ERRO DETECTADO!"
+            echo "❌ FALHA DETECTADA - DISPARANDO PROTOCOLO DE AUTO-REPARO"
             exit 1
           }
 
-      - name: 📦 Entrega de Sucesso
+      - name: 📦 Entrega do Artefato Mara
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Akame_Soberana_Final
-          path: "**/build/outputs/apk/debug/*.apk"
+          name: Akame_v${{ github.run_number }}
+          path: "app/build/outputs/apk/debug/*.apk"
