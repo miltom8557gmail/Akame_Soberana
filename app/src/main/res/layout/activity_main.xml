@@ -1,22 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:background="#020202" android:padding="20dp">
+    android:orientation="vertical" android:background="#050505" android:padding="15dp">
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="AKAME OMNI: CLOUD BACKUP" android:textColor="#4285F4"
-        android:gravity="center" android:textSize="16sp" android:textStyle="bold"/>
+        android:text="AKAME NEURAL LINK [miltom.jose8557]" android:textColor="#00FFCC"
+        android:gravity="center" android:textSize="12sp" android:textStyle="bold" android:shadowColor="#00FFCC" android:shadowRadius="10"/>
 
-    <Button android:id="@+id/btn_google_backup" android:layout_width="match_parent" android:layout_height="60dp"
-        android:text="☁️ BACKUP PARA GOOGLE DRIVE" android:backgroundTint="#34A853"
-        android:layout_marginTop="20dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" 
+        android:orientation="horizontal" android:layout_marginTop="15dp" android:weightSum="2">
+        <TextView android:id="@+id/cpu_status" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="CPU: --%" android:textColor="#BD00FF" android:textSize="10sp"/>
+        <TextView android:id="@+id/bat_status" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="BAT: --%" android:textColor="#00FFCC" android:textSize="10sp" android:gravity="right"/>
+    </LinearLayout>
 
-    <TextView android:id="@+id/sync_status" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Status: Google Cloud Sincronizado" android:textColor="#FBBC05"
-        android:gravity="center" android:layout_marginTop="10dp" android:textSize="12sp"/>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A1A1A" android:layout_marginVertical="10dp"/>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="20dp">
-        <TextView android:id="@+id/log_terminal" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="> Monitorando integridade local..." android:textColor="#00FFCC" android:typeface="monospace"/>
+    <ScrollView android:id="@+id/scroll_chat" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:background="#080808" android:padding="10dp">
+        <TextView android:id="@+id/display_neural" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="> Conectando ao Llama-3 (Hugging Face)...\n> Sincronizando com Google Drive..." 
+            android:textColor="#00FF00" android:typeface="monospace" android:textSize="11sp"/>
     </ScrollView>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
+        <EditText android:id="@+id/input_comando" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:hint="Ordem Neural..." android:textColor="#FFFFFF" android:textColorHint="#444444"
+            android:background="#111111" android:padding="12dp" android:textSize="14sp"/>
+        <Button android:id="@+id/btn_enviar" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="EXE" android:backgroundTint="#BD00FF" android:textColor="#FFFFFF" android:textStyle="bold"/>
+    </LinearLayout>
 </LinearLayout>
