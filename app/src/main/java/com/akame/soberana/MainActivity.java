@@ -1,16 +1,17 @@
 package com.akame.soberana;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import java.util.Locale;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private TextToSpeech tts;
-    private final OkHttpClient client = new OkHttpClient();
+    private static final int CAMERA_PERMISSION_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,27 +21,17 @@ public class MainActivity extends AppCompatActivity {
         tts = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) {
                 tts.setLanguage(new Locale("pt", "BR"));
-                iniciarSincronizacao();
+                verificarPermissoes();
             }
         });
     }
 
-    private void iniciarSincronizacao() {
-        tts.speak("Iniciando Sincronização Omni. Consultando Supabase e Hugging Face.", TextToSpeech.QUEUE_FLUSH, null, null);
-        
-        // A Akame agora tenta validar a conexão em segundo plano
-        new Thread(() -> {
-            try {
-                // Simulação de pulso de rede para validar a ponte
-                Request request = new Request.Builder().url("https://huggingface.co/api/models").build();
-                Response response = client.newCall(request).execute();
-                
-                if (response.isSuccessful()) {
-                    runOnUiThread(() -> tts.speak("Ponte com Hugging Face estabelecida com sucesso. Cérebro externo online.", TextToSpeech.QUEUE_ADD, null, null));
-                }
-            } catch (Exception e) {
-                runOnUiThread(() -> tts.speak("Aviso: Ponte externa aguardando chaves de autenticação.", TextToSpeech.QUEUE_ADD, null, null));
-            }
-        }).start();
+    private void verificarPermissoes() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            tts.speak("Mestre, preciso de permissão para abrir meus olhos. Solicitação de câmera enviada.", TextToSpeech.QUEUE_FLUSH, null, null);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+        } else {
+            tts.speak("Visão computacional ativa. Meus olhos estão abertos e prontos para processar o mundo.", TextToSpeech.QUEUE_FLUSH, null, null);
+        }
     }
 }
