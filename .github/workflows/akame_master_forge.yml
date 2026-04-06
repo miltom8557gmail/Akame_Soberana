@@ -1,4 +1,4 @@
-name: 🔱 AKAME: FORJA SOBERANA
+name: 🔱 AKAME: FORJA SOBERANA V2
 on:
   push:
     branches: [ main ]
@@ -6,25 +6,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Clonando Repositório
+      - name: 📥 Clonando
         uses: actions/checkout@v4
-
-      - name: ☕ Configurando Java 17
+      - name: ⚙️ Akame: Autocriação
+        run: chmod +x akame_build_core.sh && ./akame_build_core.sh
+      - name: ☕ Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
-
-      - name: ⚙️ Gerando Motor Gradle
-        run: gradle wrapper --gradle-version 8.2
-
-      - name: 🏗️ Compilando APK
+      - name: 🏗️ Compilando
         run: |
+          gradle wrapper --gradle-version 8.2
           chmod +x gradlew
           ./gradlew assembleDebug
-
-      - name: 📤 ENTREGAR APK AO MESTRE
+      - name: 📤 ENTREGAR
         uses: actions/upload-artifact@v4
         with:
-          name: Akame_Soberana_Final
+          name: Akame_V2_Pronta
           path: app/build/outputs/apk/debug/*.apk
