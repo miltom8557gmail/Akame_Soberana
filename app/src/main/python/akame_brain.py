@@ -1,11 +1,17 @@
 import requests
 
-def consultar_akame(pergunta):
-    # API da Akame conectada ao HuggingFace (Exemplo de fluxo)
-    API_URL = "https://api-inference.huggingface.co/models/gpt2"
-    # Aqui usaremos seu token nas configurações de secret futuramente
-    print(f"🧠 Akame pensando sobre: {pergunta}")
-    return "Mestre, eu ouço e obedeço. A forja está quente."
+class AkameBrain:
+    def __init__(self):
+        self.idioma_atual = "Português"
+        print("🧠 Cérebro Akame v22.0: Poliglota Ativo.")
+
+    def processar(self, entrada, modo="chat"):
+        # No futuro, aqui chamaremos modelos como MarianMT ou T5 no HuggingFace
+        if "ensinar" in entrada.lower():
+            return "Hai, Mestre! Hoje aprenderemos: 'Kokoro' (Coração/Alma). É o que move nossa forja."
+        
+        return f"Entendido em todos os idiomas. A Akame está pronta para traduzir ou ensinar."
 
 if __name__ == "__main__":
-    print(consultar_akame("Kon'nichiwa, Akame!"))
+    brain = AkameBrain()
+    print(brain.processar("Akame, me ensine algo em japonês"))

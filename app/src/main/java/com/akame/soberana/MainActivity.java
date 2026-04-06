@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            tts.setLanguage(new Locale("pt", "BR"));
+            tts.setLanguage(Locale.getDefault());
             isReady = true;
         }
     }
