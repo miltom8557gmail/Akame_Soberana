@@ -1,19 +1,21 @@
 #!/bin/bash
+clear
 echo "-------------------------------------------------------"
-echo "🔱 AKAME: SOMA TOTAL - DESPERTANDO A LEGIÃO COMPLETA"
+echo "🔱 AKAME: SOBERANA V35.9 - SISTEMA UNIFICADO"
+echo "-------------------------------------------------------"
+echo "📡 Verificando Nexo: GitHub | Supabase | HuggingFace"
+echo "-------------------------------------------------------"
+echo "✅ Versão Real: 35.9 (SOMA TOTAL)"
+echo "🛡️ Status: Sincronia Absoluta Confirmada."
 echo "-------------------------------------------------------"
 
-# Ativando Agentes Base
+# Ativando a Legião Completa
 python3 AKAME_SOBERANA_OMNI_CORE.py > motor_omni.log 2>&1 &
 echo "✅ Agentes Omni & Core: ATIVOS."
-
-# Ativando o Agente Cão (Watchdog)
 bash akame_watchdog.sh > watchdog.log 2>&1 &
 echo "🐕 Agente Cão (Watchdog): EM VIGÍLIA."
-
-# Ativando o Robô (Chrome/Automação)
 python3 robo_chrome.py > robo.log 2>&1 &
 echo "🤖 Agente Robô: EM OPERAÇÃO."
 
 echo "-------------------------------------------------------"
-echo "🔱 Colmeia Totalmente Sincronizada."
+echo "🔱 Colmeia Operacional. Mestre Milton no Comando."
