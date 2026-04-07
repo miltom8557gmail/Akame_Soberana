@@ -1,16 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="#000000">
+    android:background="#050505"
+    android:padding="12dp">
     <TextView
-        android:id="@+id/status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Iniciando Akame..."
-        android:textColor="#FF0000"
+        android:text="🔱 AKAME SOBERANA V40.1"
+        android:textColor="#FFD700"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/status_nexo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📡 NEXO: GH: OK | SB: OK | HF: OK"
+        android:textColor="#00FF41"
+        android:textSize="10sp"
+        android:gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginVertical="8dp"
+        android:background="#000000"
+        android:padding="5dp">
+        <TextView
+            android:id="@+id/console_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="> Sistema Unificado. Aguardando Ordem..."
+            android:textColor="#00FF41"
+            android:fontFamily="monospace"
+            android:textSize="11sp"/>
+    </ScrollView>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2">
+        <Button android:id="@+id/btn_status" android:text="STATUS" android:backgroundTint="#1A237E"/>
+        <Button android:id="@+id/btn_push" android:text="PUSH" android:backgroundTint="#2E7D32"/>
+        <Button android:id="@+id/btn_reset" android:text="RESET" android:backgroundTint="#C62828"/>
+        <Button android:id="@+id/btn_build" android:text="BUILD APK" android:backgroundTint="#FF6F00"/>
+    </GridLayout>
 </LinearLayout>
