@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#050505">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_centerInParent="true" android:text="🔱 AKAME: RESSURREIÇÃO REAL"
-        android:textColor="#FF0000" android:textSize="22sp" android:textStyle="bold" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#050505"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/status_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="AKAME OMNI: V31.0 | Nexo Ativo"
+        android:textColor="#00FFFF"
+        android:textSize="12sp"
+        android:fontFamily="serif" />
+
+    <FrameLayout
+        android:id="@+id/avatar_container"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/avatar_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_lock_idle_lock" />
+
+        <View
+            android:id="@+id/pulse_circle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/btn_default_small"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/response_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/avatar_container"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="Aguardando gatilho: 'Akame Ga Kill'"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-condensed" />
+
 </RelativeLayout>

@@ -9,8 +9,8 @@ android {
         applicationId "com.akame.soberana"
         minSdk 24
         targetSdk 34
-        versionCode 28
-        versionName "28.0"
+        versionCode 31
+        versionName "31.0"
     }
 }
 

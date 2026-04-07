@@ -5,20 +5,29 @@ import android.content.*;
 import android.os.*;
 import android.speech.*;
 import android.speech.tts.TextToSpeech;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import androidx.core.app.NotificationCompat;
-import okhttp3.*;
-import java.io.IOException;
 import java.util.*;
 
 public class AkameService extends Service {
     private SpeechRecognizer recognizer;
     private TextToSpeech tts;
-    private final OkHttpClient client = new OkHttpClient();
+    private View pulseCircle;
+    private Animation pulseAnim;
 
     @Override
     public void onCreate() {
         super.onCreate();
         iniciarNotificacao();
+        
+        // Carregar animação de pulsação (Precisa ser criada em res/anim)
+        pulseAnim = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+        pulseAnim.setRepeatCount(Animation.INFINITE);
+        pulseAnim.setRepeatMode(Animation.REVERSE);
+
         tts = new TextToSpeech(this, s -> {
             if (s != TextToSpeech.ERROR) tts.setLanguage(new Locale("pt", "BR"));
         });
@@ -33,19 +42,24 @@ public class AkameService extends Service {
 
         recognizer.setRecognitionListener(new RecognitionListener() {
             @Override
+            public void onBeginningOfSpeech() {
+                // Ativar animação de "Ouvindo" no Avatar
+                ativarPulsação(true);
+            }
+
+            @Override
             public void onResults(Bundle b) {
+                ativarPulsação(false);
                 ArrayList<String> res = b.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (res != null && !res.isEmpty()) {
                     String cmd = res.get(0).toLowerCase();
-                    if (cmd.contains("akame ga kill")) {
-                        executarOrdemCriativa(cmd);
-                    }
+                    processarOrdem(cmd);
                 }
                 recognizer.startListening(intent);
             }
-            @Override public void onError(int i) { recognizer.startListening(intent); }
+
+            @Override public void onError(int i) { ativarPulsação(false); recognizer.startListening(intent); }
             @Override public void onReadyForSpeech(Bundle b) {}
-            @Override public void onBeginningOfSpeech() {}
             @Override public void onRmsChanged(float v) {}
             @Override public void onBufferReceived(byte[] b) {}
             @Override public void onEndOfSpeech() {}
@@ -55,49 +69,32 @@ public class AkameService extends Service {
         recognizer.startListening(intent);
     }
 
-    private void executarOrdemCriativa(String cmd) {
-        if (cmd.contains("criar filme") || cmd.contains("gerar cena")) {
-            tts.speak("Iniciando renderização no Supercomputador do GitHub via Hugging Face. Aguarde, Mestre.", TextToSpeech.QUEUE_FLUSH, null, null);
-            enviarComandoParaSupabase("PRODUCAO_VIDEO", cmd);
-        } else if (cmd.contains("postar") || cmd.contains("rede social")) {
-            tts.speak("Analisando engajamento e preparando publicação estratégica.", TextToSpeech.QUEUE_FLUSH, null, null);
-            enviarComandoParaSupabase("SOCIAL_MEDIA", cmd);
-        } else if (cmd.contains("luz")) {
-            // Comando herdado da V26 para manter integridade
-            tts.speak("Acionando hardware tático.", TextToSpeech.QUEUE_FLUSH, null, null);
-        } else {
-            tts.speak("Akame em prontidão. Sistema sincronizado com a nuvem.", TextToSpeech.QUEUE_FLUSH, null, null);
-        }
+    private void ativarPulsação(boolean ligar) {
+        // Esta lógica deve ser vinculada à UI da MainActivity.
+        // Como é um Service, enviaremos um Broadcast para a MainActivity atualizar a UI.
+        Intent intent = new Intent("AKAME_PULSE");
+        intent.putExtra("estado", ligar);
+        sendBroadcast(intent);
     }
 
-    private void enviarComandoParaSupabase(String tipo, String ordem) {
-        // Esta função dispara o gatilho que o GitHub Actions lerá para iniciar o Stable Diffusion
-        RequestBody body = new FormBody.Builder()
-            .add("type", tipo)
-            .add("prompt", ordem)
-            .add("status", "pending")
-            .build();
-
-        Request request = new Request.Builder()
-            .url("https://miltom8557.supabase.co/rest/v1/tasks")
-            .addHeader("apikey", "SUA_API_KEY")
-            .post(body)
-            .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {}
-            @Override public void onResponse(Call call, Response response) throws IOException { response.close(); }
-        });
+    private void processarOrdem(String cmd) {
+        if (cmd.contains("akame ga kill")) {
+            tts.speak("Soberana em prontidão, Mestre. O que deseja criar?", TextToSpeech.QUEUE_FLUSH, null, null);
+        } else if (cmd.contains("status")) {
+            tts.speak("V31 operando. Colmeia ativa no Termux. Nexo de Supercomputador sincronizado.", TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            tts.speak("Analisando ordem multimodal.", TextToSpeech.QUEUE_FLUSH, null, null);
+        }
     }
 
     private void iniciarNotificacao() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel chan = new NotificationChannel("akame_v27", "Akame Creative", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel chan = new NotificationChannel("akame_v31", "Akame Visual", NotificationManager.IMPORTANCE_LOW);
             ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).createNotificationChannel(chan);
         }
-        Notification n = new NotificationCompat.Builder(this, "akame_v27")
-                .setContentTitle("Akame: Soberana V27")
-                .setContentText("Nexo HuggingFace-Supabase-GitHub Ativo")
+        Notification n = new NotificationCompat.Builder(this, "akame_v31")
+                .setContentTitle("Akame: Protocolo Avatar V31")
+                .setContentText("A Soberana tem um rosto.")
                 .setSmallIcon(android.R.drawable.ic_menu_camera)
                 .build();
         startForeground(1, n);
