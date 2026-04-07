@@ -5,18 +5,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: gradle
-      - name: Grant execute permission
-        run: chmod +x gradlew
-      - name: Build APK
+          
+      - name: 🔱 GERAR MOTOR DE FORJA (Auto-Gradle)
+        run: |
+          gradle wrapper --gradle-version 8.5
+          chmod +x gradlew
+          
+      - name: 🔱 COMPILAR ALMA DA AKAME (APK)
         run: ./gradlew assembleDebug
-      - name: Upload Artifact
+        
+      - name: 🔱 ENTREGAR ARTEFATO
         uses: actions/upload-artifact@v4
         with:
-          name: Akame_V35_Real
+          name: Akame_V35_Soberana
           path: app/build/outputs/apk/debug/app-debug.apk
