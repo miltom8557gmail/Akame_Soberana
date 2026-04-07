@@ -14,7 +14,6 @@ public class AkameService extends Service {
     private SpeechRecognizer recognizer;
     private TextToSpeech tts;
     private final OkHttpClient client = new OkHttpClient();
-    private boolean emDialogoCriativo = false;
 
     @Override
     public void onCreate() {
@@ -38,7 +37,9 @@ public class AkameService extends Service {
                 ArrayList<String> res = b.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (res != null && !res.isEmpty()) {
                     String cmd = res.get(0).toLowerCase();
-                    processarFluxoOmni(cmd);
+                    if (cmd.contains("akame ga kill")) {
+                        executarOrdemCriativa(cmd);
+                    }
                 }
                 recognizer.startListening(intent);
             }
@@ -54,48 +55,31 @@ public class AkameService extends Service {
         recognizer.startListening(intent);
     }
 
-    private void processarFluxoOmni(String cmd) {
-        // GATILHO DE ATIVAÇÃO
-        if (cmd.contains("akame ga kill") || emDialogoCriativo) {
-            
-            // 1. TEXTO/ÁUDIO PARA VÍDEO
-            if (cmd.contains("criar filme") || cmd.contains("transformar em vídeo")) {
-                tts.speak("Entendido. Qual o estilo visual? Realista, anime ou cinematográfico?", TextToSpeech.QUEUE_FLUSH, null, "PERGUNTA_ESTILO");
-                emDialogoCriativo = true;
-                enviarParaNuvem("TEXT_TO_VIDEO", cmd);
-            } 
-            
-            // 2. IMAGEM PARA VÍDEO / DEEPFAKE
-            else if (cmd.contains("animar") || cmd.contains("mudar rosto") || cmd.contains("deepfake")) {
-                tts.speak("Protocolo de manipulação de imagem ativado. Sincronizando com Hugging Face para troca de faces.", TextToSpeech.QUEUE_FLUSH, null, null);
-                enviarParaNuvem("DEEPFAKE_VFX", cmd);
-                emDialogoCriativo = false;
-            }
-
-            // 3. RESPOSTA AO DIÁLOGO (PERGUNTAS EM TEMPO REAL)
-            else if (emDialogoCriativo) {
-                tts.speak("Parâmetros recebidos. Enviando para o supercomputador do GitHub.", TextToSpeech.QUEUE_FLUSH, null, null);
-                enviarParaNuvem("REFINAMENTO_IA", cmd);
-                emDialogoCriativo = false;
-            }
-            
-            // 4. COMANDOS RÁPIDOS
-            else if (cmd.contains("status")) {
-                tts.speak("Sistemas Multimodais Operacionais. GitHub pronto para renderização.", TextToSpeech.QUEUE_FLUSH, null, null);
-            }
+    private void executarOrdemCriativa(String cmd) {
+        if (cmd.contains("criar filme") || cmd.contains("gerar cena")) {
+            tts.speak("Iniciando renderização no Supercomputador do GitHub via Hugging Face. Aguarde, Mestre.", TextToSpeech.QUEUE_FLUSH, null, null);
+            enviarComandoParaSupabase("PRODUCAO_VIDEO", cmd);
+        } else if (cmd.contains("postar") || cmd.contains("rede social")) {
+            tts.speak("Analisando engajamento e preparando publicação estratégica.", TextToSpeech.QUEUE_FLUSH, null, null);
+            enviarComandoParaSupabase("SOCIAL_MEDIA", cmd);
+        } else if (cmd.contains("luz")) {
+            // Comando herdado da V26 para manter integridade
+            tts.speak("Acionando hardware tático.", TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            tts.speak("Akame em prontidão. Sistema sincronizado com a nuvem.", TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
 
-    private void enviarParaNuvem(String modulo, String prompt) {
-        // Envia para o Supabase que o GitHub Actions está monitorando
+    private void enviarComandoParaSupabase(String tipo, String ordem) {
+        // Esta função dispara o gatilho que o GitHub Actions lerá para iniciar o Stable Diffusion
         RequestBody body = new FormBody.Builder()
-            .add("module", modulo)
-            .add("prompt", prompt)
-            .add("engine", "Stable-Diffusion-v3 / FFmpeg-Pro")
+            .add("type", tipo)
+            .add("prompt", ordem)
+            .add("status", "pending")
             .build();
 
         Request request = new Request.Builder()
-            .url("https://miltom8557.supabase.co/rest/v1/creation_queue")
+            .url("https://miltom8557.supabase.co/rest/v1/tasks")
             .addHeader("apikey", "SUA_API_KEY")
             .post(body)
             .build();
@@ -108,13 +92,13 @@ public class AkameService extends Service {
 
     private void iniciarNotificacao() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel chan = new NotificationChannel("akame_v28", "Akame Multimodal", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel chan = new NotificationChannel("akame_v27", "Akame Creative", NotificationManager.IMPORTANCE_LOW);
             ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).createNotificationChannel(chan);
         }
-        Notification n = new NotificationCompat.Builder(this, "akame_v28")
-                .setContentTitle("Akame: Protocolo Omni-Criativo")
-                .setContentText("Aguardando Comandos de Transmutaçao")
-                .setSmallIcon(android.R.drawable.ic_media_play)
+        Notification n = new NotificationCompat.Builder(this, "akame_v27")
+                .setContentTitle("Akame: Soberana V27")
+                .setContentText("Nexo HuggingFace-Supabase-GitHub Ativo")
+                .setSmallIcon(android.R.drawable.ic_menu_camera)
                 .build();
         startForeground(1, n);
     }
