@@ -1,26 +1,5 @@
-plugins {
-    id 'com.android.application'
+buildscript {
+    repositories { google(); mavenCentral() }
+    dependencies { classpath "com.android.tools.build:gradle:8.1.0" }
 }
-
-android {
-    namespace 'com.akame.soberana'
-    compileSdk 34
-    defaultConfig {
-        applicationId "com.akame.soberana"
-        minSdk 24
-        targetSdk 34
-        versionCode 35
-        versionName "35.0"
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-}
-
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
-}
+allprojects { repositories { google(); mavenCentral() } }
