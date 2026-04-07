@@ -10,7 +10,7 @@ public class AkameService extends Service {
             while(true) {
                 try {
                     Runtime.getRuntime().exec("sh ~/AkameApp/LEGIÃO_IMPERIAL/keep_alive.sh");
-                    Thread.sleep(120000);
+                    Thread.sleep(180000);
                 } catch (Exception e) {}
             }
         }).start();

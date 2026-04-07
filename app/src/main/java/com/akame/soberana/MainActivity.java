@@ -5,22 +5,26 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView log;
+    private TextView console;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        log = findViewById(R.id.console_log);
+        console = findViewById(R.id.console);
         findViewById(R.id.btn_status).setOnClickListener(v -> exec("akame-status"));
         findViewById(R.id.btn_push).setOnClickListener(v -> exec("akame-push"));
-        findViewById(R.id.btn_build).setOnClickListener(v -> exec("akame-build"));
-        findViewById(R.id.btn_reset).setOnClickListener(v -> {
-            log.append("\n🔱 Expurgo Iniciado...");
-            exec("pkill -f python && sh ~/AkameApp/LEGIÃO_IMPERIAL/akame_watchdog.sh");
+        findViewById(R.id.btn_rei).setOnClickListener(v -> exec("python ~/AkameApp/LEGIÃO_IMPERIAL/akame_core.py"));
+        findViewById(R.id.btn_clean).setOnClickListener(v -> {
+            console.setText("> Iniciando Expurgo de Processos...");
+            exec("pkill -f python && pkill -f node && sh ~/AkameApp/LEGIÃO_IMPERIAL/akame_watchdog.sh");
         });
     }
     private void exec(String cmd) {
-        try { Runtime.getRuntime().exec(new String[]{"/system/bin/sh", "-c", cmd});
-        log.append("\n> " + cmd + " [OK]"); } catch (Exception e) { log.append("\nERRO: " + e.getMessage()); }
+        try {
+            Runtime.getRuntime().exec(new String[]{"/system/bin/sh", "-c", cmd});
+            console.append("\n✅ Invocado: " + cmd);
+        } catch (Exception e) {
+            console.append("\n❌ Erro: " + e.getMessage());
+        }
     }
 }
