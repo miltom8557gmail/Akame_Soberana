@@ -1,28 +1,34 @@
-package com.akame.soberana;
-
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
+package com.akame.omni;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import okhttp3.*;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView logOutput;
+    private final OkHttpClient client = new OkHttpClient();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String[] permissions = {
-            Manifest.permission.CAMERA, 
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        };
-        
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, permissions, 100);
-        } else {
-            startService(new Intent(this, AkameService.class));
-            finish();
-        }
+        setContentView(R.layout.main);
+        logOutput = findViewById(R.id.log_output);
+        Button btnSinc = findViewById(R.id.btn_sincronizar);
+        btnSinc.setOnClickListener(v -> {
+            logOutput.setText("⚡ Acessando Nexus Cloud...");
+            Request request = new Request.Builder().url("http://127.0.0.1:5000/sincronizar").build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(() -> logOutput.setText("❌ MOTOR V9.2 DISCONNECTED"));
+                }
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    final String res = response.body().string();
+                    runOnUiThread(() -> logOutput.setText("🔱 STATUS OMNI:\n\n" + res));
+                }
+            });
+        });
     }
 }
