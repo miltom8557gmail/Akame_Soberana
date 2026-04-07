@@ -9,10 +9,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: 🔱 VALIDAR GRADLE
-        run: gradle wrapper --gradle-version 8.5
-      - name: 🔱 FORJAR APK
-        run: chmod +x gradlew && ./gradlew assembleDebug
+      - name: 🔱 FORJAR COM GRADLE NATIVO
+        run: |
+          gradle wrapper
+          ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: Akame_V35_APK
