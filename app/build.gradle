@@ -1,5 +1,15 @@
-buildscript {
-    repositories { google(); mavenCentral() }
-    dependencies { classpath "com.android.tools.build:gradle:8.1.0" }
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.akame.soberana'
+    compileSdk 34
+    defaultConfig {
+        applicationId "com.akame.soberana"
+        minSdk 24
+        targetSdk 34
+        versionCode 35
+        versionName "35.5"
+    }
 }
-allprojects { repositories { google(); mavenCentral() } }
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+}
