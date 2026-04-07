@@ -9,12 +9,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: 🔱 GERAR MOTOR E DAR AUTORIDADE
+      - name: 🔱 AUTORIDADE E COMPILAÇÃO
         run: |
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Akame_Soberana_V35_Final
+          name: Akame_Soberana_V35_92
           path: app/build/outputs/apk/debug/app-debug.apk
