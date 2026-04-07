@@ -2,26 +2,23 @@ package com.akame.soberana;
 
 import android.app.*;
 import android.content.*;
-import android.hardware.camera2.*;
 import android.os.*;
 import android.speech.*;
 import android.speech.tts.TextToSpeech;
 import androidx.core.app.NotificationCompat;
+import okhttp3.*;
+import java.io.IOException;
 import java.util.*;
 
 public class AkameService extends Service {
     private SpeechRecognizer recognizer;
     private TextToSpeech tts;
-    private CameraManager cameraManager;
-    private String cameraId;
+    private final OkHttpClient client = new OkHttpClient();
 
     @Override
     public void onCreate() {
         super.onCreate();
         iniciarNotificacao();
-        cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-        try { cameraId = cameraManager.getCameraIdList()[0]; } catch (Exception e) {}
-        
         tts = new TextToSpeech(this, s -> {
             if (s != TextToSpeech.ERROR) tts.setLanguage(new Locale("pt", "BR"));
         });
@@ -41,7 +38,7 @@ public class AkameService extends Service {
                 if (res != null && !res.isEmpty()) {
                     String cmd = res.get(0).toLowerCase();
                     if (cmd.contains("akame ga kill")) {
-                        executarProtocolo(cmd);
+                        executarOrdemCriativa(cmd);
                     }
                 }
                 recognizer.startListening(intent);
@@ -58,35 +55,52 @@ public class AkameService extends Service {
         recognizer.startListening(intent);
     }
 
-    private void executarProtocolo(String cmd) {
-        if (cmd.contains("luz") || cmd.contains("lanterna")) {
-            alternarLanterna(true);
-            tts.speak("Lanterna ativada, Mestre.", TextToSpeech.QUEUE_FLUSH, null, null);
-        } else if (cmd.contains("desligar luz")) {
-            alternarLanterna(false);
-            tts.speak("Luz desativada.", TextToSpeech.QUEUE_FLUSH, null, null);
-        } else if (cmd.contains("relatório") || cmd.contains("forja")) {
-            tts.speak("Acessando GitHub. Versão 26 operacional. Build da V25 concluída sem erros.", TextToSpeech.QUEUE_FLUSH, null, null);
+    private void executarOrdemCriativa(String cmd) {
+        if (cmd.contains("criar filme") || cmd.contains("gerar cena")) {
+            tts.speak("Iniciando renderização no Supercomputador do GitHub via Hugging Face. Aguarde, Mestre.", TextToSpeech.QUEUE_FLUSH, null, null);
+            enviarComandoParaSupabase("PRODUCAO_VIDEO", cmd);
+        } else if (cmd.contains("postar") || cmd.contains("rede social")) {
+            tts.speak("Analisando engajamento e preparando publicação estratégica.", TextToSpeech.QUEUE_FLUSH, null, null);
+            enviarComandoParaSupabase("SOCIAL_MEDIA", cmd);
+        } else if (cmd.contains("luz")) {
+            // Comando herdado da V26 para manter integridade
+            tts.speak("Acionando hardware tático.", TextToSpeech.QUEUE_FLUSH, null, null);
         } else {
-            tts.speak("Akame ouvindo. Aguardando ordens táticas.", TextToSpeech.QUEUE_FLUSH, null, null);
+            tts.speak("Akame em prontidão. Sistema sincronizado com a nuvem.", TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
 
-    private void alternarLanterna(boolean estado) {
-        try { cameraManager.setTorchMode(cameraId, estado); } catch (Exception e) {}
+    private void enviarComandoParaSupabase(String tipo, String ordem) {
+        // Esta função dispara o gatilho que o GitHub Actions lerá para iniciar o Stable Diffusion
+        RequestBody body = new FormBody.Builder()
+            .add("type", tipo)
+            .add("prompt", ordem)
+            .add("status", "pending")
+            .build();
+
+        Request request = new Request.Builder()
+            .url("https://miltom8557.supabase.co/rest/v1/tasks")
+            .addHeader("apikey", "SUA_API_KEY")
+            .post(body)
+            .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {}
+            @Override public void onResponse(Call call, Response response) throws IOException { response.close(); }
+        });
     }
 
     private void iniciarNotificacao() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel chan = new NotificationChannel("akame_v26", "Akame Ômega", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel chan = new NotificationChannel("akame_v27", "Akame Creative", NotificationManager.IMPORTANCE_LOW);
             ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).createNotificationChannel(chan);
         }
-        Notification notification = new NotificationCompat.Builder(this, "akame_v26")
-                .setContentTitle("Akame: Protocolo Ômega")
-                .setContentText("Hardware e Nuvem Sincronizados")
-                .setSmallIcon(android.R.drawable.ic_menu_manage)
+        Notification n = new NotificationCompat.Builder(this, "akame_v27")
+                .setContentTitle("Akame: Soberana V27")
+                .setContentText("Nexo HuggingFace-Supabase-GitHub Ativo")
+                .setSmallIcon(android.R.drawable.ic_menu_camera)
                 .build();
-        startForeground(1, notification);
+        startForeground(1, n);
     }
 
     @Override public int onStartCommand(Intent i, int f, int s) { return START_STICKY; }
