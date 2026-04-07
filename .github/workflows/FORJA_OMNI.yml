@@ -9,11 +9,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: 🔱 FORJAR COM GRADLE NATIVO
+      - name: 🔱 GERAR MOTOR E FORJAR
         run: |
-          gradle wrapper
+          gradle wrapper --gradle-version 8.5
           ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Akame_V35_APK
+          name: Akame_Soberana_V35_9
           path: app/build/outputs/apk/debug/app-debug.apk
