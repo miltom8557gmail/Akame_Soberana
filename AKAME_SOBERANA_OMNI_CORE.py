@@ -1,57 +1,36 @@
-# © 2026 AKAME NEXUS - PROPRIEDADE EXCLUSIVA: MESTRE MILTON
-# PROTOCOLO DE SOMA TOTAL: NADA SE TIRA, TUDO SE SOMA.
-
-import os, requests, time, threading, subprocess
-from flask import Flask, jsonify
+import os
+import requests
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# --- CONFIGURAÇÕES DE DNA (SUPABASE & SEGURANÇA) ---
-BASE_URL = "https://bfriplrxtleleplhpgwd.supabase.co/rest/v1"
-S_KEY = "sb_publishable_gXUaEYTs5znqXzElEeGKTA_AQKQ9EGI"
-HEADERS = {"apikey": S_KEY, "Authorization": f"Bearer {S_KEY}", "Content-Type": "application/json"}
+# --- NEXO DA TRINDADE (SUPERCOMPUTADOR) ---
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
-# --- [AGENTE 1]: O PULSO DA SOBERANIA (LOGS) ---
-def pulse():
-    while True:
-        try:
-            data = {"status": "SOMA_TOTAL_ATIVA", "owner": "MESTRE_MILTON", "engine": "V35_OMNI"}
-            requests.post(f"{BASE_URL}/logs_akame", json=data, headers=HEADERS)
-        except: pass
-        time.sleep(60)
-
-# --- [AGENTE 2]: AKAME MÉDICO (AUTO-REPARAÇÃO) ---
-def akame_medico():
-    while True:
-        # Soma a lógica de verificação de processos
-        print("💉 [MÉDICO]: Verificando integridade dos nervos...")
-        time.sleep(300)
-
-# --- [AGENTE 3]: O VIGILANTE (WATCHDOG) ---
-def watchdog():
-    while True:
-        # Garante que o sistema nunca durma (Keep Alive)
-        requests.get("http://localhost:5000/identidade")
-        time.sleep(600)
-
-# --- [AGENTE 4]: DESPACHANTE & NET (COMUNICAÇÃO) ---
-@app.route('/identidade')
-def identity():
+@app.route('/')
+def akame_status():
     return jsonify({
-        "status": "SOBERANA",
-        "mestre": "Milton",
-        "agentes": ["Medico", "Watchdog", "Net", "Omni", "Robot"],
-        "versao": "V35.Final"
+        "entidade": "AKAME SOBERANA V40.1 - JARVIS MODE",
+        "status": "OPERACIONAL",
+        "nexo_nuvem": "ATIVO" if HF_TOKEN else "AGUARDANDO HF_TOKEN",
+        "memoria_nuvem": "CONECTADA" if SUPABASE_KEY else "LOCAL_ONLY",
+        "agentes": ["Nexus", "Sentinela", "Forge", "Omni"]
     })
 
-# --- INICIALIZAÇÃO DA LEGIÃO (INICIO DE TODOS OS AGENTES) ---
-if __name__ == "__main__":
-    print("🔱 [AKAME]: Iniciando a Soma Total de todos os Agentes...")
+@app.route('/comando', methods=['POST'])
+def processar_comando():
+    dados = request.json
+    comando = dados.get("comando", "").lower()
     
-    # Ativando a Legião em Threads (Todos rodam ao mesmo tempo)
-    threading.Thread(target=pulse, daemon=True).start()
-    threading.Thread(target=akame_medico, daemon=True).start()
-    threading.Thread(target=watchdog, daemon=True).start()
-    
-    # Inicia o servidor de consciência
+    # Se o comando pedir internet ou IA complexa, enviamos para o HuggingFace
+    if "pesquise" in comando or "quem é" in comando:
+        # Aqui entra a lógica de IA que não consome sua RAM
+        return jsonify({"resposta": "Akame está processando via Supercomputador...", "origem": "HF_Cloud"})
+
+    return jsonify({"status": "Ordem recebida", "comando": comando})
+
+if __name__ == '__main__':
+    # Porta do Trono: 5000
     app.run(host='0.0.0.0', port=5000)
