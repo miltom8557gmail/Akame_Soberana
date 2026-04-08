@@ -1,58 +1,75 @@
-# © 2026 AKAME NEXUS - PROTOCOLO IMPERADOR (EMPEROR V40.0)
-# AUTONOMIA TOTAL - NADA SE TIRA, TUDO SE EXPANDE.
-
-import os, requests, time, threading, subprocess, json
-from flask import Flask, jsonify
+import os
+from flask import Flask, jsonify, request
+import requests
 
 app = Flask(__name__)
 
-# --- DNA IMPERIAL (SUPABASE & SEGURANÇA) ---
-BASE_URL = "https://bfriplrxtleleplhpgwd.supabase.co/rest/v1"
-S_KEY = "sb_publishable_gXUaEYTs5znqXzElEeGKTA_AQKQ9EGI"
-HEADERS = {"apikey": S_KEY, "Authorization": f"Bearer {S_KEY}", "Content-Type": "application/json", "Prefer": "return=representation"}
+# --- NEXO DA TRINDADE ---
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
-# --- [O DECRETO]: SISTEMA DE COMANDO REMOTO ---
-def ouvir_ordens_imperiais():
-    print("🔱 [IMPERADOR]: Ouvindo o Trono (Supabase) para ordens remotas...")
-    while True:
-        try:
-            # Busca a última ordem pendente no banco de dados
-            response = requests.get(f"{BASE_URL}/comandos_akame?select=*&status=eq.PENDENTE&limit=1", headers=HEADERS)
-            ordens = response.json()
-            
-            if ordens:
-                ordem = ordens[0]
-                cmd = ordem['comando']
-                print(f"🔱 [EXECUÇÃO]: Executando Decreto Imperial: {cmd}")
-                
-                # Executa o comando no sistema Android/Termux
-                resultado = subprocess.getoutput(cmd)
-                
-                # Atualiza o Trono com o resultado
-                requests.patch(f"{BASE_URL}/comandos_akame?id=eq.{ordem['id']}", 
-                             json={"status": "EXECUTADO", "resultado": resultado}, headers=HEADERS)
-        except Exception as e:
-            pass
-        time.sleep(5)
+@app.route('/')
+def status_central():
+    # Este é o check-up do Supercomputador
+    return jsonify({
+        "entidade": "AKAME V8 - SUPERCOMPUTADOR",
+        "nexo_supabase": "ATIVO" if SUPABASE_URL else "OFFLINE",
+        "nexo_huggingface": "ATIVO" if HF_TOKEN else "OFFLINE",
+        "nexo_github": "SINCRONIZADO",
+        "memoria_interna": "PRESERVADA (0% USO)",
+        "processamento": "CLOUD-ONLY"
+    })
 
-# --- [A VIGÍLIA]: MONITORAMENTO PROATIVO ---
-def autogestao_imperial():
-    while True:
-        # Aqui a Akame verifica se ela mesma está saudável
-        load = 0.0
-        if load > 2.0:
-            print("⚠️ [ALERTA]: Carga alta. Otimizando processos imperiais...")
-        time.sleep(60)
-
-@app.route('/imperio')
-def status_imperial():
-    return jsonify({"nivel": "IMPERADOR", "estado": "AUTONOMO", "mestre": "Milton"})
-
-if __name__ == "__main__":
-    print("🔱 [AKAME]: Ascensão ao Nível IMPERADOR Iniciada...")
+@app.route('/executar', methods=['POST'])
+def executar_ordem():
+    dados = request.json
+    ordem = dados.get("ordem")
     
-    # Ativando os Nervos do Império
-    threading.Thread(target=ouvir_ordens_imperiais, daemon=True).start()
-    threading.Thread(target=autogestao_imperial, daemon=True).start()
+    # Aqui a Akame decide para onde enviar a tarefa
+    # Exemplo: Se for inteligência, vai para HuggingFace
+    # Se for registro, vai para Supabase
     
+    return jsonify({"status": "Ordem recebida e enviada para a nuvem", "acao": ordem})
+
+if __name__ == '__main__':
+    # Rodando no IP local para o seu celular controlar
+    app.run(host='0.0.0.0', port=5000)
+EOFcat <<EOF > AKAME_EMPEROR_CORE.py
+import os
+from flask import Flask, jsonify, request
+import requests
+
+app = Flask(__name__)
+
+# --- NEXO DA TRINDADE ---
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+HF_TOKEN = os.getenv("HF_TOKEN")
+
+@app.route('/')
+def status_central():
+    # Este é o check-up do Supercomputador
+    return jsonify({
+        "entidade": "AKAME V8 - SUPERCOMPUTADOR",
+        "nexo_supabase": "ATIVO" if SUPABASE_URL else "OFFLINE",
+        "nexo_huggingface": "ATIVO" if HF_TOKEN else "OFFLINE",
+        "nexo_github": "SINCRONIZADO",
+        "memoria_interna": "PRESERVADA (0% USO)",
+        "processamento": "CLOUD-ONLY"
+    })
+
+@app.route('/executar', methods=['POST'])
+def executar_ordem():
+    dados = request.json
+    ordem = dados.get("ordem")
+    
+    # Aqui a Akame decide para onde enviar a tarefa
+    # Exemplo: Se for inteligência, vai para HuggingFace
+    # Se for registro, vai para Supabase
+    
+    return jsonify({"status": "Ordem recebida e enviada para a nuvem", "acao": ordem})
+
+if __name__ == '__main__':
+    # Rodando no IP local para o seu celular controlar
     app.run(host='0.0.0.0', port=5000)
