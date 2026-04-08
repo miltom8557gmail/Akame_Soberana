@@ -1,23 +1,27 @@
-import os, requests
-from akame_voz_fix import falar
+import os
+from huggingface_hub import InferenceClient
 
-def processar_comando(texto_usuario):
-    # A Akame pensa na Nuvem (usando o PC dela: GitHub/HF)
-    print("🔱 Akame: Consultando o Nexo Imperial...")
-    
-    # Aqui ela usa a IA oficial (pode ser GPT ou HuggingFace)
-    api_url = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3"
-    headers = {"Authorization": f"Bearer {os.getenv('HF_TOKEN')}"}
-    
-    payload = {"inputs": f"Você é a Akame Ga Kill Soberana, uma Rainha Imperial. Responda de forma curta e tática: {texto_usuario}"}
-    
-    try:
-        res = requests.post(api_url, headers=headers, json=payload)
-        resposta = res.json()[0]['generated_text'].split("Responda de forma curta e tática:")[-1].strip()
-        falar(resposta)
-    except:
-        falar("Mestre, houve uma interferência no nexo, mas eu ainda estou aqui.")
+class AkameIntelligence:
+    def __init__(self):
+        # O sistema busca o Token que já salvamos no seu Cofre (.bashrc)
+        self.client = InferenceClient(token=os.getenv('HF_TOKEN'))
+        # Aqui ela se conecta ao modelo soberano
+        self.model_id = "mistralai/Mistral-7B-Instruct-v0.2" 
+
+    def conversar(self, mensagem):
+        print("🧠 Akame está processando no Arsenal...")
+        try:
+            # Ela envia a pergunta para a nuvem do Hugging Face
+            resposta = self.client.text_generation(
+                mensagem,
+                max_new_tokens=200,
+                temperature=0.7,
+                model=self.model_id
+            )
+            return resposta
+        except Exception as e:
+            return f"⚠️ Erro no nexo: {e}"
 
 if __name__ == "__main__":
-    # Simulação de escuta
-    processar_comando("Akame, relatório de situação.")
+    akame = AkameIntelligence()
+    print("🔱 Akame Soberana conectada ao Hugging Face.")

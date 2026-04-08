@@ -1,45 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#050505"
-    android:padding="16dp">
+    android:background="#000000">
     <TextView
+        android:id="@+id/status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🔱 AKAME IMPERADOR V40.1"
+        android:text="AKAME SOBERANA: NUVEM ATIVA"
         android:textColor="#FF0000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#FFD700"
-        android:layout_marginVertical="8dp"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#000000"
-        android:padding="10dp">
-        <TextView
-            android:id="@+id/console"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="> Aguardando Comandos do Imperador..."
-            android:textColor="#00FF41"
-            android:fontFamily="monospace"
-            android:textSize="12sp"/>
-    </ScrollView>
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:layout_marginTop="10dp">
-        <Button android:id="@+id/btn_status" android:text="STATUS" android:backgroundTint="#0D47A1" android:layout_margin="2dp"/>
-        <Button android:id="@+id/btn_push" android:text="PUSH GIT" android:backgroundTint="#1B5E20" android:layout_margin="2dp"/>
-        <Button android:id="@+id/btn_rei" android:text="REI DEMÔNIO" android:backgroundTint="#B71C1C" android:layout_margin="2dp"/>
-        <Button android:id="@+id/btn_clean" android:text="EXPURGO" android:backgroundTint="#455A64" android:layout_margin="2dp"/>
-    </GridLayout>
-</LinearLayout>
+        android:layout_centerInParent="true"
+        android:textSize="20sp" />
+</RelativeLayout>
