@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKAME NEXUS - IMPERIAL</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        body { background: #050505; color: #ff0000; font-family: 'Courier New', monospace; text-align: center; margin: 0; padding: 20px; }
+        .avatar { width: 150px; border-radius: 50%; border: 2px solid #ff0000; box-shadow: 0 0 20px #ff0000; margin-bottom: 20px; }
+        h1 { font-size: 1.5rem; letter-spacing: 5px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .btn { background: #111; border: 1px solid #ff0000; color: #ff0000; padding: 20px 10px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .btn:active { background: #ff0000; color: #000; }
+        #status { color: #555; font-size: 0.8rem; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <img src="https://raw.githubusercontent.com/AkameApp/assets/main/akame_avatar.jpg" class="avatar" alt="Akame">
+    <h1>🔱 AKAME NEXUS</h1>
+    <div id="status">SISTEMA ONLINE</div>
+    
+    <div class="grid">
+        <button class="btn" onclick="enviar('RELATORIO')">Relatório</button>
+        <button class="btn" onclick="enviar('VOZ')">Testar Voz</button>
+        <button class="btn" onclick="enviar('INSTAGRAM')">Infiltrar Insta</button>
+        <button class="btn" onclick="enviar('LIMPEZA')">Limpar Cache</button>
+    </div>
+
+    <script>
+        // A Akame buscará as chaves do seu arquivo de configuração automaticamente
+        const SUPABASE_URL = 'https://bfriplrxtleleplhpgwd.supabase.co'; 
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmcmlwbHJ4dGxlbGVwbGhwZ3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxOTQ5NzcsImV4cCI6MjA5MDc3MDk3N30.6Hpk0Rxfj-JU-W5S1_52rETwa6dwqS0l5URBZFUgNkU';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function enviar(cmd) {
+            const status = document.getElementById('status');
+            status.innerText = "ENVIANDO ORDEM...";
+            const { error } = await _supabase.from('ordens_termux').insert([{ comando: cmd, status: 'pendente' }]);
+            if (error) status.innerText = "ERRO NA TRANSMISSÃO";
+            else status.innerText = "ORDEM DISPARADA ✅";
+            setTimeout(() => { status.innerText = "SISTEMA ONLINE"; }, 3000);
+        }
+    </script>
+</body>
+</html>
