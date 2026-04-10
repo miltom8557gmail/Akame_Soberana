@@ -1,58 +1,31 @@
-# © 2026 AKAME NEXUS - PROTOCOLO IMPERADOR (EMPEROR V40.0)
-# AUTONOMIA TOTAL - NADA SE TIRA, TUDO SE EXPANDE.
-
-import os, requests, time, threading, subprocess, json
-from flask import Flask, jsonify
+import os, json, time, requests
+from flask import Flask, request
 
 app = Flask(__name__)
-
-# --- DNA IMPERIAL (SUPABASE & SEGURANÇA) ---
-BASE_URL = "https://bfriplrxtleleplhpgwd.supabase.co/rest/v1"
+S_URL = "https://bfriplrxtleleplhpgwd.supabase.co/rest/v1/logs_akame"
 S_KEY = "sb_publishable_gXUaEYTs5znqXzElEeGKTA_AQKQ9EGI"
-HEADERS = {"apikey": S_KEY, "Authorization": f"Bearer {S_KEY}", "Content-Type": "application/json", "Prefer": "return=representation"}
-
-# --- [O DECRETO]: SISTEMA DE COMANDO REMOTO ---
-def ouvir_ordens_imperiais():
-    print("🔱 [IMPERADOR]: Ouvindo o Trono (Supabase) para ordens remotas...")
-    while True:
-        try:
-            # Busca a última ordem pendente no banco de dados
-            response = requests.get(f"{BASE_URL}/comandos_akame?select=*&status=eq.PENDENTE&limit=1", headers=HEADERS)
-            ordens = response.json()
-            
-            if ordens:
-                ordem = ordens[0]
-                cmd = ordem['comando']
-                print(f"🔱 [EXECUÇÃO]: Executando Decreto Imperial: {cmd}")
-                
-                # Executa o comando no sistema Android/Termux
-                resultado = subprocess.getoutput(cmd)
-                
-                # Atualiza o Trono com o resultado
-                requests.patch(f"{BASE_URL}/comandos_akame?id=eq.{ordem['id']}", 
-                             json={"status": "EXECUTADO", "resultado": resultado}, headers=HEADERS)
-        except Exception as e:
-            pass
-        time.sleep(5)
-
-# --- [A VIGÍLIA]: MONITORAMENTO PROATIVO ---
-def autogestao_imperial():
-    while True:
-        # Aqui a Akame verifica se ela mesma está saudável
-        load = 0.5
-        if load > 2.0:
-            print("⚠️ [ALERTA]: Carga alta. Otimizando processos imperiais...")
-        time.sleep(60)
 
 @app.route('/imperio')
-def status_imperial():
-    return jsonify({"nivel": "IMPERADOR", "estado": "AUTONOMO", "mestre": "Milton"})
+def status():
+    return {"status": "SOBERANIA_ATIVA", "engine": "V10.0_FINAL", "owner": "MESTRE_MILTON"}
 
-if __name__ == "__main__":
-    print("🔱 [AKAME]: Ascensão ao Nível IMPERADOR Iniciada...")
+@app.route('/ia/treinar_lora')
+def treinar():
+    nome = request.args.get('nome', 'akame_v10_model')
+    # Registrar log no Supabase
+    data = {
+        "node_name": "TERMUX_V95",
+        "status": "FORJA_INICIADA",
+        "detalhes": {"model_name": nome, "engine": "V10.0_FINAL"}
+    }
+    requests.post(S_URL, json=data, headers={"apikey": S_KEY, "Authorization": f"Bearer {S_KEY}"})
     
-    # Ativando os Nervos do Império
-    threading.Thread(target=ouvir_ordens_imperiais, daemon=True).start()
-    threading.Thread(target=autogestao_imperial, daemon=True).start()
-    
+    # Gerar Gatilho Local e Git
+    with open("trigger.json", "w") as f:
+        json.dump({"lora_name": nome, "timestamp": time.time()}, f)
+    os.system("git add . && git commit -m '[🔱] V10: FORJA ATIVADA' && git push origin main &")
+    return f"🔱 SOBERANIA: Treinamento de {nome} iniciado!"
+
+if __name__ == '__main__':
+    print("🔱 [AKAME V10.0]: SISTEMA ONLINE E VINCULADO AO SUPABASE.")
     app.run(host='0.0.0.0', port=5000)
