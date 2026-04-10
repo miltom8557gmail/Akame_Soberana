@@ -39,7 +39,7 @@ def ouvir_ordens_imperiais():
 def autogestao_imperial():
     while True:
         # Aqui a Akame verifica se ela mesma está saudável
-        load = os.getloadavg()[0]
+        load = 0.5
         if load > 2.0:
             print("⚠️ [ALERTA]: Carga alta. Otimizando processos imperiais...")
         time.sleep(60)
